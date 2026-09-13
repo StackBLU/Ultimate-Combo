@@ -111,14 +111,14 @@ internal static class AST
                 { HeliosConjuction, Buffs.HeliosConjunction }
         };
 
-    internal static ASTGauge Gauge => CustomComboFunctions.GetJobGauge<ASTGauge>();
-
     internal static class Config
     {
         internal static UserBool
             AST_ST_DPS_UseDefenseCards = new("AST_ST_DPS_UseDefenseCards"),
             AST_AoE_DPS_UseDefenseCards = new("AST_AoE_DPS_UseDefenseCards");
     }
+
+    internal static ASTGauge Gauge => CustomComboFunctions.GetJobGauge<ASTGauge>();
 
     internal class AST_ST_DPS : CustomComboBase
     {
@@ -133,7 +133,7 @@ internal static class AST
                     return EarthlyStar;
                 }
 
-                if ((WasLastSpell(AspectedHelios) || WasLastSpell(HeliosConjuction)) && !InCombat())
+                if ((WasLastGCD(AspectedHelios) || WasLastGCD(HeliosConjuction)) && !InCombat())
                 {
                     ActionWatching.CombatActions.Clear();
                 }
@@ -143,7 +143,8 @@ internal static class AST
                     if (ActionWatching.NumberOfGcdsUsed >= 2 || Service.Configuration.IgnoreGCDChecks || LevelIgnoreGCD())
                     {
                         if (IsEnabled(Presets.AST_ST_DPS_Lightspeed) && ActionReady(Lightspeed) && TargetIsBoss()
-                            && !HasEffect(Buffs.Lightspeed) && !HasEffect(Common.Buffs.Swiftcast) && GetCooldownRemainingTime(Divination) < 3)
+                            && !HasEffect(Buffs.Lightspeed) && !HasEffect(Common.Buffs.Swiftcast)
+                            && (GetCooldownRemainingTime(Divination) < 3 || (HasEffect(Buffs.Divination) && EffectRemainingTime(Buffs.Divination) > 10)))
                         {
                             return Lightspeed;
                         }
@@ -214,7 +215,7 @@ internal static class AST
                     }
                 }
 
-                if (IsEnabled(Presets.AST_ST_DPS_Combust) && ActionReady(OriginalHook(Combust3))
+                if (IsEnabled(Presets.AST_ST_DPS_Combust) && ActionReady(OriginalHook(Combust3)) && DebuffCullCheck()
                     && (ActionWatching.NumberOfGcdsUsed >= 3 || Service.Configuration.IgnoreGCDChecks || LevelIgnoreGCD()) && TargetWorthDoT()
                     && (!TargetHasEffect(CombustList[OriginalHook(Combust)])
                     || TargetEffectRemainingTime(CombustList[OriginalHook(Combust)]) <= 3
@@ -246,7 +247,8 @@ internal static class AST
                 if (CanWeave(actionID, ActionWatching.LastGCD))
                 {
                     if (IsEnabled(Presets.AST_AoE_DPS_Lightspeed) && ActionReady(Lightspeed) && TargetIsBoss()
-                        && !HasEffect(Buffs.Lightspeed) && !HasEffect(Common.Buffs.Swiftcast) && GetCooldownRemainingTime(Divination) < 3)
+                        && !HasEffect(Buffs.Lightspeed) && !HasEffect(Common.Buffs.Swiftcast)
+                        && (GetCooldownRemainingTime(Divination) < 3 || (HasEffect(Buffs.Divination) && EffectRemainingTime(Buffs.Divination) > 10)))
                     {
                         return Lightspeed;
                     }
@@ -328,7 +330,7 @@ internal static class AST
             if ((actionID is Benefic1 or Benefic2) && IsEnabled(Presets.AST_ST_Heals))
             {
                 if (ActionReady(AspectedBenefic)
-                    && ((HasFriendlyTarget() && !TargetHasEffect(Buffs.AspectedBenefic))
+                    && ((HasFriendlyTarget() && !TargetHasEffect(Buffs.AspectedBenefic)) || HasEffect(Buffs.NeutralSect) || WasLastAction(NeutralSect)
                     || (!HasFriendlyTarget() && !HasEffect(Buffs.AspectedBenefic))))
                 {
                     return AspectedBenefic;
@@ -369,12 +371,9 @@ internal static class AST
                     return SunSign;
                 }
 
-                if (ActionReady(AspectedHelios)
-                    && (!HasEffect(HeliosList[OriginalHook(AspectedHelios)])
-                    || EffectRemainingTime(HeliosList[OriginalHook(AspectedHelios)]) <= 3
-                    || HasEffect(Buffs.NeutralSect)
-                    || HasEffect(Buffs.Horoscope)
-                    || WasLastAbility(NeutralSect)))
+                if (ActionReady(AspectedHelios) && (!HasEffect(HeliosList[OriginalHook(AspectedHelios)])
+                    || EffectRemainingTime(HeliosList[OriginalHook(AspectedHelios)]) <= 3 || HasEffect(Buffs.NeutralSect)
+                    || HasEffect(Buffs.Horoscope) || WasLastAbility(NeutralSect)))
                 {
                     return OriginalHook(AspectedHelios);
                 }

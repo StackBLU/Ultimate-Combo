@@ -105,16 +105,6 @@ internal abstract partial class CustomComboFunctions
         return ActionWatching.LastAction == id;
     }
 
-    internal static bool WasLastWeaponskill(uint id)
-    {
-        return ActionWatching.LastWeaponskill == id;
-    }
-
-    internal static bool WasLastSpell(uint id)
-    {
-        return ActionWatching.LastSpell == id;
-    }
-
     internal static bool WasLastGCD(uint id)
     {
         return ActionWatching.LastGCD == id;
@@ -224,7 +214,7 @@ internal abstract partial class CustomComboFunctions
 
     internal static bool SafeToUse()
     {
-        var rdmSafe = !WasLastSpell(RDM.Verflare) && !WasLastSpell(RDM.Verholy) && !WasLastSpell(RDM.Scorch)
+        var rdmSafe = !WasLastGCD(RDM.Verflare) && !WasLastGCD(RDM.Verholy) && !WasLastGCD(RDM.Scorch)
                    && !WasLastGCD(RDM.EnchantedRiposte) && !WasLastGCD(RDM.EnchantedZwerchhau) && !WasLastGCD(RDM.EnchantedRedoublement)
                    && !WasLastGCD(RDM.EnchantedMoulinet) && !WasLastGCD(RDM.EnchantedMoulinetDeux) && !WasLastGCD(RDM.EnchantedMoulinetTrois);
 
@@ -232,9 +222,9 @@ internal abstract partial class CustomComboFunctions
 
         var vprSafe = !HasEffect(VPR.Buffs.Reawakened);
 
-        var sgeSafe = !WasLastSpell(SGE.Eukrasia) && !WasLastSpell(SGE.EukrasianDosis1)
-                   && !WasLastSpell(SGE.EukrasianDosis2) && !WasLastSpell(SGE.EukrasianDosis3)
-                   && !WasLastSpell(SGE.EukrasianDyskrasia);
+        var sgeSafe = !WasLastGCD(SGE.Eukrasia) && !WasLastGCD(SGE.EukrasianDosis1)
+                   && !WasLastGCD(SGE.EukrasianDosis2) && !WasLastGCD(SGE.EukrasianDosis3)
+                   && !WasLastGCD(SGE.EukrasianDyskrasia);
 
         var dncSafe = !HasEffect(DNC.Buffs.StandardStep) && !HasEffect(DNC.Buffs.TechnicalStep);
 

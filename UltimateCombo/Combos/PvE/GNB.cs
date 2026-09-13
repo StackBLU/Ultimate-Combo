@@ -77,14 +77,14 @@ internal static class GNB
             SonicBreak = 1837;
     }
 
-    private static GNBGauge Gauge => CustomComboFunctions.GetJobGauge<GNBGauge>();
-
     internal static class Config
     {
         internal static UserInt
             GNB_ST_Invuln = new("GNB_ST_Invuln", 10),
             GNB_AoE_Invuln = new("GNB_AoE_Invuln", 10);
     }
+
+    internal static GNBGauge Gauge => CustomComboFunctions.GetJobGauge<GNBGauge>();
 
     internal class GNB_ST_DPS : CustomComboBase
     {
@@ -94,8 +94,7 @@ internal static class GNB
         {
             if ((actionID is KeenEdge or BrutalShell or SolidBarrel) && IsEnabled(Presets.GNB_ST_DPS))
             {
-                if (IsEnabled(Presets.GNB_ST_Invuln) && PlayerHealthPercentageHp() <= GetOptionValue(Config.GNB_ST_Invuln)
-                    && ActionReady(Superbolide))
+                if (IsEnabled(Presets.GNB_ST_Invuln) && PlayerHealthPercentageHp() <= GetOptionValue(Config.GNB_ST_Invuln) && ActionReady(Superbolide))
                 {
                     return Superbolide;
                 }
@@ -165,7 +164,7 @@ internal static class GNB
                     && (GetRemainingCharges(OriginalHook(GnashingFang)) == GetMaxCharges(OriginalHook(GnashingFang))
                     || (GetRemainingCharges(OriginalHook(GnashingFang)) == GetMaxCharges(OriginalHook(GnashingFang)) - 1 && GetCooldownChargeRemainingTime(OriginalHook(GnashingFang)) < 10)
                     || ((HasEffect(Buffs.Bloodfest) || !LevelChecked(Bloodfest)) && !HasEffect(Buffs.ReadyToReign)
-                    && !WasLastWeaponskill(ReignOfBeasts) && !WasLastWeaponskill(NobleBlood))))
+                    && !WasLastGCD(ReignOfBeasts) && !WasLastGCD(NobleBlood))))
                 {
                     return OriginalHook(GnashingFang);
                 }
@@ -181,15 +180,15 @@ internal static class GNB
                     return SonicBreak;
                 }
 
-                if (Gauge.AmmoComboStep is 1 or 2)
+                if (Gauge.AmmoComboStep is 1 or 2 && !WasLastGCD(ReignOfBeasts) && !WasLastGCD(NobleBlood))
                 {
                     return OriginalHook(GnashingFang);
                 }
 
-                if (IsEnabled(Presets.GNB_ST_Bloodfest) && ActionReady(ReignOfBeasts)
+                if (IsEnabled(Presets.GNB_ST_Bloodfest) && ActionReady(ReignOfBeasts) && !WasLastGCD(GnashingFang) && !WasLastGCD(SavageClaw)
                     && ((HasEffect(Buffs.NoMercy) && HasEffect(Buffs.ReadyToReign))
                     || (HasEffect(Buffs.ReadyToReign) && EffectRemainingTime(Buffs.ReadyToReign) <= 10)
-                    || WasLastWeaponskill(ReignOfBeasts) || WasLastWeaponskill(NobleBlood)))
+                    || WasLastGCD(ReignOfBeasts) || WasLastGCD(NobleBlood)))
                 {
                     return OriginalHook(ReignOfBeasts);
                 }
@@ -293,7 +292,7 @@ internal static class GNB
                 }
 
                 if (IsEnabled(Presets.GNB_AoE_Bloodfest) && ActionReady(ReignOfBeasts)
-                    && (HasEffect(Buffs.ReadyToReign) || WasLastWeaponskill(ReignOfBeasts) || WasLastWeaponskill(NobleBlood)))
+                    && (HasEffect(Buffs.ReadyToReign) || WasLastGCD(ReignOfBeasts) || WasLastGCD(NobleBlood)))
                 {
                     return OriginalHook(ReignOfBeasts);
                 }

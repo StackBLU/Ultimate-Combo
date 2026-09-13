@@ -53,8 +53,6 @@ internal static class DRK
             Scorn = 3837;
     }
 
-    private static DRKGauge Gauge => CustomComboFunctions.GetJobGauge<DRKGauge>();
-
     internal static class Config
     {
         internal static UserInt
@@ -66,6 +64,8 @@ internal static class DRK
             DRK_ST_Invuln = new("DRK_ST_Invuln", 10),
             DRK_AoE_Invuln = new("DRK_AoE_Invuln", 10);
     }
+
+    internal static DRKGauge Gauge => CustomComboFunctions.GetJobGauge<DRKGauge>();
 
     internal class DRK_ST_DPS : CustomComboBase
     {

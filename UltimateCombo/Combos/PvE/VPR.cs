@@ -83,12 +83,12 @@ internal class VPR
             HonedSteel = 3672;
     }
 
-    internal static VPRGauge Gauge => CustomComboFunctions.GetJobGauge<VPRGauge>();
-
     internal static class Config
     {
 
     }
+
+    internal static VPRGauge Gauge => CustomComboFunctions.GetJobGauge<VPRGauge>();
 
     internal class VPR_ST_DPS : CustomComboBase
     {
@@ -212,9 +212,9 @@ internal class VPR
                 }
 
                 if (IsEnabled(Presets.VPR_ST_Vicewinder) && ActionReady(Vicewinder)
-                    && (WasLastWeaponskill(FlankstingStrike) || WasLastWeaponskill(FlanksbaneFang)
-                    || WasLastWeaponskill(HindstingStrike) || WasLastWeaponskill(HindsbaneFang)
-                    || (WasLastWeaponskill(SwiftskinsSting) && (ActionWatching.NumberOfGcdsUsed == 2 || Service.Configuration.IgnoreGCDChecks || LevelIgnoreGCD()))))
+                    && (WasLastGCD(FlankstingStrike) || WasLastGCD(FlanksbaneFang)
+                    || WasLastGCD(HindstingStrike) || WasLastGCD(HindsbaneFang)
+                    || (WasLastGCD(SwiftskinsSting) && (ActionWatching.NumberOfGcdsUsed == 2 || Service.Configuration.IgnoreGCDChecks || LevelIgnoreGCD()))))
                 {
                     return Vicewinder;
                 }
@@ -392,7 +392,7 @@ internal class VPR
                 }
 
                 if (IsEnabled(Presets.VPR_AoE_Vicepit) && ActionReady(Vicepit)
-                    && (WasLastWeaponskill(JaggedMaw) || WasLastWeaponskill(BloodiedMaw)))
+                    && (WasLastGCD(JaggedMaw) || WasLastGCD(BloodiedMaw)))
                 {
                     return Vicepit;
                 }

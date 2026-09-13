@@ -109,12 +109,12 @@ internal class NIN
                 { Dokumori, Debuffs.Dokumori }
         };
 
-    internal static NINGauge Gauge => CustomComboFunctions.GetJobGauge<NINGauge>();
-
     internal static class Config
     {
 
     }
+
+    internal static NINGauge Gauge => CustomComboFunctions.GetJobGauge<NINGauge>();
 
     internal class NIN_ST_DPS : CustomComboBase
     {

@@ -54,8 +54,6 @@ internal static class WAR
             ThrillOfBattle = 87;
     }
 
-    private static WARGauge Gauge => CustomComboFunctions.GetJobGauge<WARGauge>();
-
     internal static class Config
     {
         internal static UserInt
@@ -69,6 +67,8 @@ internal static class WAR
             WAR_ST_OnslaughtSave = new("WAR_ST_OnslaughtSave"),
             WAR_AoE_OnslaughtSave = new("WAR_AoE_OnslaughtSave");
     }
+
+    internal static WARGauge Gauge => CustomComboFunctions.GetJobGauge<WARGauge>();
 
     internal class WAR_ST_DPS : CustomComboBase
     {

@@ -50,8 +50,12 @@ internal abstract partial class CustomComboFunctions
         return TargetOfTarget != null && FindEffect(effectID, TargetOfTarget, null) is not null;
     }
 
-    //Effect Remaining Time
+    internal static bool DebuffCullCheck()
+    {
+        return CurrentTarget is IBattleChara chara && chara.StatusList.Length < 30;
+    }
 
+    //Effect Remaining Time
     internal static float EffectRemainingTime(ushort effectID)
     {
         return FindEffect(effectID, LocalPlayer, LocalPlayerId)?.RemainingTime ?? 0;
@@ -86,7 +90,6 @@ internal abstract partial class CustomComboFunctions
     }
 
     //Effect Stacks
-
     internal static ushort EffectStacks(ushort effectID)
     {
         return FindEffect(effectID, LocalPlayer, LocalPlayerId)?.Param ?? 0;
@@ -121,7 +124,6 @@ internal abstract partial class CustomComboFunctions
     }
 
     //Common Effects
-
     internal static bool HasSilence()
     {
         return ActionWatching.GetStatusesByName(ActionWatching.GetStatusName(7))
@@ -143,7 +145,6 @@ internal abstract partial class CustomComboFunctions
     }
 
     //Occult Weaknesses
-
     internal static ushort CurrentElementalWeakness()
     {
         return Occult.Debuffs.ElementalWeaknesses.FirstOrDefault(TargetHasEffectAny);

@@ -52,7 +52,7 @@ internal static class MNKPvP
                 && IsEnabled(Presets.MNKPvP_Combo))
             {
                 if (IsEnabled(Presets.MNKPvP_Meteodrive) && GetLimitBreakCurrentValue() == GetLimitBreakMaxValue()
-                    && (TargetHasEffectAny(AllPvP.Buffs.Guard) || (TargetHasEffectAny(Debuffs.PressurePoint) && WasLastWeaponskill(FiresReply))))
+                    && (TargetHasEffectAny(AllPvP.Buffs.Guard) || (TargetHasEffectAny(Debuffs.PressurePoint) && WasLastGCD(FiresReply))))
                 {
                     return Meteodrive;
                 }
@@ -75,18 +75,18 @@ internal static class MNKPvP
                     if (CanWeave(actionID, ActionWatching.LastGCD))
                     {
                         if (IsEnabled(Presets.MNKPvP_RisingPhoenix) && ActionReady(RisingPhoenix) && !WasLastAction(RisingPhoenix)
-                            && (WasLastWeaponskill(WindsReply) || WasLastWeaponskill(PouncingCoeurl)))
+                            && (WasLastGCD(WindsReply) || WasLastGCD(PouncingCoeurl)))
                         {
                             return RisingPhoenix;
                         }
                     }
 
-                    if (IsEnabled(Presets.MNKPvP_WindsReply) && ActionReady(WindsReply) && WasLastWeaponskill(PhantomRush))
+                    if (IsEnabled(Presets.MNKPvP_WindsReply) && ActionReady(WindsReply) && WasLastGCD(PhantomRush))
                     {
                         return WindsReply;
                     }
 
-                    if (IsEnabled(Presets.MNKPvP_FiresReply) && (WasLastWeaponskill(WindsReply) || (!InActionRange(DragonKick) && GetRemainingCharges(FiresReply) == 2)))
+                    if (IsEnabled(Presets.MNKPvP_FiresReply) && (WasLastGCD(WindsReply) || (!InActionRange(DragonKick) && GetRemainingCharges(FiresReply) == 2)))
                     {
                         return FiresReply;
                     }

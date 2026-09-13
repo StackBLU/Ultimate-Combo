@@ -70,12 +70,12 @@ internal static class BRD
             Stormbite = 1201;
     }
 
-    private static BRDGauge Gauge => CustomComboFunctions.GetJobGauge<BRDGauge>();
-
     internal static class Config
     {
 
     }
+
+    internal static BRDGauge Gauge => CustomComboFunctions.GetJobGauge<BRDGauge>();
 
     internal class BRD_ST_DPS : CustomComboBase
     {
@@ -175,7 +175,7 @@ internal static class BRD
                         || (TargetHasEffect(Debuffs.CausticBite) && TargetEffectRemainingTime(Debuffs.CausticBite) < 3)
                         || (TargetHasEffect(Debuffs.Windbite) && TargetEffectRemainingTime(Debuffs.Windbite) < 3)
                         || (TargetHasEffect(Debuffs.Stormbite) && TargetEffectRemainingTime(Debuffs.Stormbite) < 3)
-                        || WasLastWeaponskill(ResonantArrow)))
+                        || WasLastGCD(ResonantArrow)))
                     {
                         return IronJaws;
                     }
@@ -344,7 +344,7 @@ internal static class BRD
                     || (TargetHasEffect(Debuffs.CausticBite) && TargetEffectRemainingTime(Debuffs.CausticBite) < 3)
                     || (TargetHasEffect(Debuffs.Windbite) && TargetEffectRemainingTime(Debuffs.Windbite) < 3)
                     || (TargetHasEffect(Debuffs.Stormbite) && TargetEffectRemainingTime(Debuffs.Stormbite) < 3)
-                    || WasLastWeaponskill(ResonantArrow)))
+                    || WasLastGCD(ResonantArrow)))
                 {
                     return IronJaws;
                 }

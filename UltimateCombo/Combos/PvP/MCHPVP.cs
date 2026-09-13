@@ -61,7 +61,7 @@ internal static class MCHPvP
             if ((actionID is BlastCharge or BlazingShot) && IsEnabled(Presets.MCHPvP_Combo))
             {
                 if (IsEnabled(Presets.MCHPvP_Weapons) && ActionReady(OriginalHook(Drill)) && !HasEffect(Buffs.Overheated) && !HasEffect(Buffs.Overheated)
-                    && OriginalHook(Drill) == Drill && !WasLastWeaponskill(Drill) && (TargetHasEffectAny(AllPvP.Buffs.Guard) || HasEffect(Buffs.Analysis))
+                    && OriginalHook(Drill) == Drill && !WasLastGCD(Drill) && (TargetHasEffectAny(AllPvP.Buffs.Guard) || HasEffect(Buffs.Analysis))
                     && (ActionReady(Analysis) || HasEffect(Buffs.Analysis) || WasLastAction(Analysis)))
                 {
                     if (!HasEffect(Buffs.Analysis) && !WasLastAction(Analysis))
@@ -81,7 +81,7 @@ internal static class MCHPvP
                         return MarksmansSpite;
                     }
 
-                    if (IsEnabled(Presets.MCHPvP_Wildfire) && ActionReady(Wildfire) && WasLastWeaponskill(FullMetalField) && CanWeave(actionID, ActionWatching.LastGCD))
+                    if (IsEnabled(Presets.MCHPvP_Wildfire) && ActionReady(Wildfire) && WasLastGCD(FullMetalField) && CanWeave(actionID, ActionWatching.LastGCD))
                     {
                         return Wildfire;
                     }
@@ -100,13 +100,13 @@ internal static class MCHPvP
                     if (!HasEffect(Buffs.Overheated))
                     {
                         if (IsEnabled(Presets.MCHPvP_Weapons) && ActionReady(OriginalHook(Drill))
-                            && OriginalHook(Drill) == Bioblaster && !WasLastWeaponskill(Bioblaster) && InActionRange(Bioblaster))
+                            && OriginalHook(Drill) == Bioblaster && !WasLastGCD(Bioblaster) && InActionRange(Bioblaster))
                         {
                             return Bioblaster;
                         }
 
                         if (IsEnabled(Presets.MCHPvP_Weapons) && ActionReady(OriginalHook(Drill))
-                            && OriginalHook(Drill) == AirAnchor && !WasLastWeaponskill(AirAnchor)
+                            && OriginalHook(Drill) == AirAnchor && !WasLastGCD(AirAnchor)
                             && !TargetHasEffectAny(AllPvP.Buffs.Resilience)
                             && (ActionReady(Analysis) || HasEffect(Buffs.Analysis) || WasLastAction(Analysis)))
                         {
@@ -119,7 +119,7 @@ internal static class MCHPvP
                         }
 
                         if (IsEnabled(Presets.MCHPvP_Weapons) && ActionReady(OriginalHook(Drill))
-                            && OriginalHook(Drill) == ChainSaw && !WasLastWeaponskill(ChainSaw))
+                            && OriginalHook(Drill) == ChainSaw && !WasLastGCD(ChainSaw))
                         {
                             return ChainSaw;
                         }

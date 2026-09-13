@@ -88,8 +88,6 @@ internal static class SGE
                 { EukrasianDosis3, Debuffs.EukrasianDosis3 }
         };
 
-    internal static SGEGauge Gauge => CustomComboFunctions.GetJobGauge<SGEGauge>();
-
     internal static class Config
     {
         internal static UserInt
@@ -99,6 +97,8 @@ internal static class SGE
             SGE_AoE_DPS_AddersgallProtect = new("SGE_AoE_DPS_AddersgallProtect", 3);
     }
 
+    internal static SGEGauge Gauge => CustomComboFunctions.GetJobGauge<SGEGauge>();
+
     internal class SGE_ST_DPS : CustomComboBase
     {
         protected internal override Presets Preset { get; } = Presets.SGE_ST_DPS;
@@ -106,15 +106,15 @@ internal static class SGE
         {
             if ((actionID is Dosis1 or Dosis2 or Dosis3 or EukrasianDosis1 or EukrasianDosis2 or EukrasianDosis3) && IsEnabled(Presets.SGE_ST_DPS))
             {
-                if ((WasLastSpell(EukrasianPrognosis1) || WasLastSpell(EukrasianPrognosis2)) && !InCombat())
+                if ((WasLastGCD(EukrasianPrognosis1) || WasLastGCD(EukrasianPrognosis2)) && !InCombat())
                 {
                     ActionWatching.CombatActions.Clear();
                 }
 
                 if (CanWeave(actionID, ActionWatching.LastGCD) && (ActionWatching.NumberOfGcdsUsed >= 2 || Service.Configuration.IgnoreGCDChecks || LevelIgnoreGCD())
-                    && !WasLastSpell(Eukrasia) && !WasLastSpell(EukrasianPrognosis1) && !WasLastSpell(EukrasianPrognosis2)
-                    && !WasLastSpell(EukrasianDosis1) && !WasLastSpell(EukrasianDosis2) && !WasLastSpell(EukrasianDosis2)
-                    && !WasLastSpell(EukrasianDyskrasia))
+                    && !WasLastGCD(Eukrasia) && !WasLastGCD(EukrasianPrognosis1) && !WasLastGCD(EukrasianPrognosis2)
+                    && !WasLastGCD(EukrasianDosis1) && !WasLastGCD(EukrasianDosis2) && !WasLastGCD(EukrasianDosis2)
+                    && !WasLastGCD(EukrasianDyskrasia))
                 {
                     if (IsEnabled(Presets.SGE_ST_DPS_Kardia) && ActionReady(Kardia) && InCombat() && ActionWatching.NumberOfGcdsUsed >= 3
                        && (TargetIsBoss() || !HasEffect(Buffs.Kardia))
@@ -148,7 +148,7 @@ internal static class SGE
                     }
                 }
 
-                if (IsEnabled(Presets.SGE_ST_DPS_EDosis) && ActionReady(OriginalHook(Dosis1)) && HasBattleTarget() && TargetWorthDoT()
+                if (IsEnabled(Presets.SGE_ST_DPS_EDosis) && ActionReady(OriginalHook(Dosis1)) && HasBattleTarget() && TargetWorthDoT() && DebuffCullCheck()
                    && (ActionWatching.NumberOfGcdsUsed >= 3 || Service.Configuration.IgnoreGCDChecks || LevelIgnoreGCD())
                    && (!TargetHasEffect(DosisList[OriginalHook(Dosis1)]) || TargetEffectRemainingTime(DosisList[OriginalHook(Dosis1)]) <= 3))
                 {
@@ -161,7 +161,7 @@ internal static class SGE
                 }
 
                 if (IsEnabled(Presets.SGE_ST_DPS_Phlegma) && InActionRange(OriginalHook(Phlegma)) && ActionReady(OriginalHook(Phlegma))
-                    && (ActionReady(Psyche) || !LevelChecked(Psyche) || WasLastSpell(OriginalHook(Phlegma)) || GetCooldownRemainingTime(Psyche) > 50)
+                    && (ActionReady(Psyche) || !LevelChecked(Psyche) || WasLastGCD(OriginalHook(Phlegma)) || GetCooldownRemainingTime(Psyche) > 50)
                     && (ActionWatching.NumberOfGcdsUsed >= 5 || Service.Configuration.IgnoreGCDChecks || LevelIgnoreGCD()))
                 {
                     return OriginalHook(Phlegma);
@@ -189,9 +189,9 @@ internal static class SGE
             if ((actionID is Dyskrasia1 or Dyskrasia2 or EukrasianDyskrasia) && IsEnabled(Presets.SGE_AoE_DPS))
             {
                 if (CanWeave(actionID, ActionWatching.LastGCD)
-                    && !WasLastSpell(Eukrasia) && !WasLastSpell(EukrasianPrognosis1) && !WasLastSpell(EukrasianPrognosis2)
-                    && !WasLastSpell(EukrasianDosis1) && !WasLastSpell(EukrasianDosis2) && !WasLastSpell(EukrasianDosis2)
-                    && !WasLastSpell(EukrasianDyskrasia))
+                    && !WasLastGCD(Eukrasia) && !WasLastGCD(EukrasianPrognosis1) && !WasLastGCD(EukrasianPrognosis2)
+                    && !WasLastGCD(EukrasianDosis1) && !WasLastGCD(EukrasianDosis2) && !WasLastGCD(EukrasianDosis2)
+                    && !WasLastGCD(EukrasianDyskrasia))
                 {
                     if (IsEnabled(Presets.SGE_AoE_DPS_Kardia) && ActionReady(Kardia) && InCombat() && ActionWatching.NumberOfGcdsUsed >= 3
                        && (TargetIsBoss() || !HasEffect(Buffs.Kardia))
@@ -226,7 +226,7 @@ internal static class SGE
                 }
 
                 if (IsEnabled(Presets.SGE_AoE_DPS_EDyskrasia) && ActionReady(OriginalHook(Dyskrasia1))
-                    && HasBattleTarget() && LevelChecked(EukrasianDyskrasia) && !WasLastSpell(EukrasianDyskrasia)
+                    && HasBattleTarget() && LevelChecked(EukrasianDyskrasia) && !WasLastGCD(EukrasianDyskrasia)
                     && (!TargetHasEffect(DosisList[OriginalHook(Dosis1)]) || TargetEffectRemainingTime(DosisList[OriginalHook(Dosis1)]) <= 3)
                     && (!TargetHasEffect(Debuffs.EukrasianDyskrasia) || TargetEffectRemainingTime(Debuffs.EukrasianDyskrasia) <= 3))
                 {
@@ -239,7 +239,7 @@ internal static class SGE
                 }
 
                 if (IsEnabled(Presets.SGE_AoE_DPS_Phlegma) && InActionRange(OriginalHook(Phlegma)) && ActionReady(OriginalHook(Phlegma))
-                    && (ActionReady(Psyche) || !LevelChecked(Psyche) || WasLastSpell(OriginalHook(Phlegma)) || GetCooldownRemainingTime(Psyche) > 50))
+                    && (ActionReady(Psyche) || !LevelChecked(Psyche) || WasLastGCD(OriginalHook(Phlegma)) || GetCooldownRemainingTime(Psyche) > 50))
                 {
                     return OriginalHook(Phlegma);
                 }

@@ -87,12 +87,12 @@ internal static class DNC
             Pirouette = 16002;
     }
 
-    private static DNCGauge Gauge => CustomComboFunctions.GetJobGauge<DNCGauge>();
-
     internal static class Config
     {
 
     }
+
+    internal static DNCGauge Gauge => CustomComboFunctions.GetJobGauge<DNCGauge>();
 
     internal class DNC_ST_DPS : CustomComboBase
     {
@@ -115,7 +115,7 @@ internal static class DNC
                         return Devilment;
                     }
 
-                    if (IsEnabled(Presets.DNC_ST_Flourish) && ActionReady(Flourish) && !WasLastWeaponskill(StandardFinish2) && IsOnCooldown(Devilment))
+                    if (IsEnabled(Presets.DNC_ST_Flourish) && ActionReady(Flourish) && !WasLastGCD(StandardFinish2) && IsOnCooldown(Devilment))
                     {
                         return Flourish;
                     }
@@ -273,7 +273,7 @@ internal static class DNC
                         return Devilment;
                     }
 
-                    if (IsEnabled(Presets.DNC_AoE_Flourish) && ActionReady(Flourish) && !WasLastWeaponskill(StandardFinish2) && IsOnCooldown(Devilment))
+                    if (IsEnabled(Presets.DNC_AoE_Flourish) && ActionReady(Flourish) && !WasLastGCD(StandardFinish2) && IsOnCooldown(Devilment))
                     {
                         return Flourish;
                     }

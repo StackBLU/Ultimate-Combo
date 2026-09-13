@@ -106,7 +106,7 @@ internal static class SAMPvP
                         return Soten;
                     }
 
-                    if (IsEnabled(Presets.SAMPvP_MeikyoShisui) && WasLastWeaponskill(TendoSetsugekka) && InActionRange(TendoSetsugekka))
+                    if (IsEnabled(Presets.SAMPvP_MeikyoShisui) && WasLastGCD(TendoSetsugekka) && InActionRange(TendoSetsugekka))
                     {
                         return TendoKaeshiSetsugekka;
                     }
@@ -117,7 +117,7 @@ internal static class SAMPvP
                         return TendoSetsugekka;
                     }
 
-                    if (IsEnabled(Presets.SAMPvP_Namikiri) && WasLastWeaponskill(OgiNamikiri) && InActionRange(OgiNamikiri))
+                    if (IsEnabled(Presets.SAMPvP_Namikiri) && WasLastGCD(OgiNamikiri) && InActionRange(OgiNamikiri))
                     {
                         return KaeshiNamikiri;
                     }

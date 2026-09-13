@@ -74,14 +74,14 @@ internal static class SAM
             Higanbana = 1228;
     }
 
-    private static SAMGauge Gauge => CustomComboFunctions.GetJobGauge<SAMGauge>();
-
     internal static class Config
     {
         internal static UserBool
             SAM_ST_SaveKenkiDash = new("SAM_ST_SaveKenkiDash"),
             SAM_AoE_SaveKenkiDash = new("SAM_AoE_SaveKenkiDash");
     }
+
+    internal static SAMGauge Gauge => CustomComboFunctions.GetJobGauge<SAMGauge>();
 
     internal class SAM_ST_DPS : CustomComboBase
     {
@@ -142,8 +142,8 @@ internal static class SAM
                         }
 
                         if (IsEnabled(Presets.SAM_ST_Meikyo) && ActionReady(MeikyoShisui) && !HasEffect(Buffs.MeikyoShisui)
-                            && !HasEffect(Buffs.Tendo) && !WasLastWeaponskill(Hakaze) && !WasLastWeaponskill(Gyofu)
-                            && !WasLastWeaponskill(Jinpu) && !WasLastWeaponskill(Shifu)
+                            && !HasEffect(Buffs.Tendo) && !WasLastGCD(Hakaze) && !WasLastGCD(Gyofu)
+                            && !WasLastGCD(Jinpu) && !WasLastGCD(Shifu)
                             && (HasEffect(Buffs.OgiNamikiriReady) || !LevelChecked(OgiNamikiri) || !TargetWorthDoT()
                             || GetCooldownRemainingTime(Ikishoten) < 5))
                         {
@@ -173,7 +173,7 @@ internal static class SAM
 
                 if (TargetHasEffect(Debuffs.Higanbana))
                 {
-                    if (IsEnabled(Presets.SAM_ST_Kaeshi) && WasLastWeaponskill(OgiNamikiri))
+                    if (IsEnabled(Presets.SAM_ST_Kaeshi) && WasLastGCD(OgiNamikiri))
                     {
                         return KaeshiNamikiri;
                     }
@@ -192,7 +192,7 @@ internal static class SAM
                 }
 
                 if (IsEnabled(Presets.SAM_ST_Higanbana) && TargetEffectRemainingTime(Debuffs.Higanbana) < 5
-                    && (!IsMoving || WasLastWeaponskill(OriginalHook(Gyofu)))
+                    && (!IsMoving || WasLastGCD(OriginalHook(Gyofu)))
                     && OriginalHook(Iaijutsu) != TenkaGoken && OriginalHook(Iaijutsu) != TendoGoken
                     && (Gauge.HasGetsu || Gauge.HasKa || Gauge.HasSetsu)
                     && (ActionWatching.NumberOfGcdsUsed > 2 || Service.Configuration.IgnoreGCDChecks || LevelIgnoreGCD())
@@ -202,7 +202,7 @@ internal static class SAM
                 }
 
                 if (Gauge.HasGetsu && Gauge.HasKa && Gauge.HasSetsu
-                    && (!IsMoving || WasLastWeaponskill(Jinpu) || WasLastWeaponskill(Shifu))
+                    && (!IsMoving || WasLastGCD(Jinpu) || WasLastGCD(Shifu))
                     && IsEnabled(Presets.SAM_ST_Iaijutsu)
                     && (ActionWatching.NumberOfGcdsUsed > 2 || Service.Configuration.IgnoreGCDChecks || LevelIgnoreGCD()))
                 {
@@ -305,7 +305,7 @@ internal static class SAM
                     }
 
                     if (IsEnabled(Presets.SAM_AoE_Meikyo) && ActionReady(MeikyoShisui) && !HasEffect(Buffs.MeikyoShisui)
-                        && !HasEffect(Buffs.Tendo) && !WasLastWeaponskill(Fuga) && !WasLastWeaponskill(Fuko))
+                        && !HasEffect(Buffs.Tendo) && !WasLastGCD(Fuga) && !WasLastGCD(Fuko))
                     {
                         return MeikyoShisui;
                     }
@@ -335,7 +335,7 @@ internal static class SAM
                     }
                 }
 
-                if (IsEnabled(Presets.SAM_AoE_Kaeshi) && WasLastWeaponskill(OgiNamikiri))
+                if (IsEnabled(Presets.SAM_AoE_Kaeshi) && WasLastGCD(OgiNamikiri))
                 {
                     return KaeshiNamikiri;
                 }

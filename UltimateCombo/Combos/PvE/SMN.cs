@@ -100,8 +100,6 @@ internal class SMN
             CrimsonStrikeReady = 4403;
     }
 
-    private static SMNGauge Gauge => CustomComboFunctions.GetJobGauge<SMNGauge>();
-
     internal static class Config
     {
         internal static UserBool
@@ -114,6 +112,8 @@ internal class SMN
             SMN_AoE_Astral_Ifrit = new("SMN_AoE_Astral_Ifrit");
     }
 
+    internal static SMNGauge Gauge => CustomComboFunctions.GetJobGauge<SMNGauge>();
+
     internal class SMN_ST_DPS : CustomComboBase
     {
         protected internal override Presets Preset { get; } = Presets.SMN_ST_DPS;
@@ -122,7 +122,7 @@ internal class SMN
         {
             if ((actionID is Ruin or Ruin2 or Ruin3) && IsEnabled(Presets.SMN_ST_DPS))
             {
-                if (WasLastSpell(SummonCarbuncle) && !InCombat())
+                if (WasLastGCD(SummonCarbuncle) && !InCombat())
                 {
                     ActionWatching.CombatActions.Clear();
                 }
@@ -153,7 +153,7 @@ internal class SMN
                     }
 
                     if (IsEnabled(Presets.SMN_ST_Astral) && ActionReady(OriginalHook(AstralFlow)) && IsEnabled(Presets.SMN_ST_Astral)
-                        && (WasLastSpell(AstralImpulse) || WasLastSpell(FountainOfFire) || WasLastSpell(UmbralImpulse)
+                        && (WasLastGCD(AstralImpulse) || WasLastGCD(FountainOfFire) || WasLastGCD(UmbralImpulse)
                         || HasEffect(Buffs.TitansFavor)))
                     {
                         return OriginalHook(AstralFlow);
@@ -161,7 +161,7 @@ internal class SMN
 
                     if (IsEnabled(Presets.SMN_ST_Enkindle) && ActionReady(OriginalHook(EnkindleBahamut))
                         && Gauge.AttunementTimerRemaining == 0 && Gauge.Attunement == 0
-                        && (WasLastSpell(AstralImpulse) || WasLastSpell(FountainOfFire) || WasLastSpell(UmbralImpulse)))
+                        && (WasLastGCD(AstralImpulse) || WasLastGCD(FountainOfFire) || WasLastGCD(UmbralImpulse)))
                     {
                         return OriginalHook(EnkindleBahamut);
                     }
@@ -228,7 +228,7 @@ internal class SMN
                     return SummonCarbuncle;
                 }
 
-                if (IsEnabled(Presets.SMN_ST_SummonBahaPhoenix) && ActionReady(OriginalHook(SummonBahamut)))
+                if (IsEnabled(Presets.SMN_ST_SummonBahaPhoenix) && ActionReady(OriginalHook(SummonBahamut)) && ActionWatching.NumberOfGcdsUsed > 0)
                 {
                     return OriginalHook(SummonBahamut);
                 }
@@ -251,7 +251,7 @@ internal class SMN
         {
             if ((actionID is Outburst or Tridisaster) && IsEnabled(Presets.SMN_AoE_DPS))
             {
-                if (WasLastSpell(SummonCarbuncle) && !InCombat())
+                if (WasLastGCD(SummonCarbuncle) && !InCombat())
                 {
                     ActionWatching.CombatActions.Clear();
                 }
@@ -269,8 +269,7 @@ internal class SMN
                         return SearingLight;
                     }
 
-                    if (IsEnabled(Presets.SMN_AoE_EnergySiphon)
-                        && (ActionReady(EnergySiphon) || Gauge.AetherflowStacks > 0))
+                    if (IsEnabled(Presets.SMN_AoE_EnergySiphon) && (ActionReady(EnergySiphon) || Gauge.AetherflowStacks > 0 || !LevelChecked(EnergySiphon)))
                     {
                         if (Gauge.AetherflowStacks > 0 && (HasEffect(Buffs.SearingLight) || !LevelChecked(SearingLight)))
                         {
@@ -281,10 +280,23 @@ internal class SMN
                         {
                             return EnergySiphon;
                         }
+
+                        if (!LevelChecked(EnergySiphon))
+                        {
+                            if (Gauge.AetherflowStacks > 0)
+                            {
+                                return OriginalHook(Necrotize);
+                            }
+
+                            if (ActionReady(EnergyDrain) && Gauge.AetherflowStacks == 0)
+                            {
+                                return EnergyDrain;
+                            }
+                        }
                     }
 
                     if (IsEnabled(Presets.SMN_AoE_Astral) && ActionReady(OriginalHook(AstralFlow)) && IsEnabled(Presets.SMN_ST_Astral)
-                        && (WasLastSpell(AstralFlare) || WasLastSpell(BrandOfPurgatory) || WasLastSpell(UmbralFlare)
+                        && (WasLastGCD(AstralFlare) || WasLastGCD(BrandOfPurgatory) || WasLastGCD(UmbralFlare)
                         || HasEffect(Buffs.TitansFavor)))
                     {
                         return OriginalHook(AstralFlow);
@@ -292,7 +304,7 @@ internal class SMN
 
                     if (IsEnabled(Presets.SMN_AoE_Enkindle) && ActionReady(OriginalHook(EnkindleBahamut))
                         && Gauge.AttunementTimerRemaining == 0 && Gauge.Attunement == 0
-                        && (WasLastSpell(AstralFlare) || WasLastSpell(BrandOfPurgatory) || WasLastSpell(UmbralFlare)))
+                        && (WasLastGCD(AstralFlare) || WasLastGCD(BrandOfPurgatory) || WasLastGCD(UmbralFlare)))
                     {
                         return OriginalHook(EnkindleBahamut);
                     }
@@ -359,7 +371,7 @@ internal class SMN
                     return SummonCarbuncle;
                 }
 
-                if (IsEnabled(Presets.SMN_AoE_SummonBahaPhoenix) && ActionReady(OriginalHook(SummonBahamut)))
+                if (IsEnabled(Presets.SMN_AoE_SummonBahaPhoenix) && ActionReady(OriginalHook(SummonBahamut)) && ActionWatching.NumberOfGcdsUsed > 0)
                 {
                     return OriginalHook(SummonBahamut);
                 }

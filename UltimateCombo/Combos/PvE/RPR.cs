@@ -78,12 +78,12 @@ internal class RPR
             DeathsDesign = 2586;
     }
 
-    private static RPRGauge Gauge => CustomComboFunctions.GetJobGauge<RPRGauge>();
-
     internal static class Config
     {
 
     }
+
+    internal static RPRGauge Gauge => CustomComboFunctions.GetJobGauge<RPRGauge>();
 
     internal class RPR_ST_DPS : CustomComboBase
     {
@@ -98,7 +98,7 @@ internal class RPR
                     return Soulsow;
                 }
 
-                if (!InCombat() && ActionReady(Harpe) && !InMeleeRange())
+                if (!InCombat() && ActionReady(Harpe) && !InMeleeRange() && !Service.Configuration.IgnoreGCDChecks)
                 {
                     return Harpe;
                 }
@@ -168,7 +168,7 @@ internal class RPR
 
                 if (IsEnabled(Presets.RPR_ST_Enshroud) && Gauge.LemureShroud > 0 && (Gauge.LemureShroud > 1 || Level <= 89))
                 {
-                    if (WasLastWeaponskill(OriginalHook(VoidReaping)))
+                    if (WasLastGCD(OriginalHook(VoidReaping)))
                     {
                         return OriginalHook(CrossReaping);
                     }

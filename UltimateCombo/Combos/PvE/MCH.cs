@@ -64,8 +64,6 @@ internal class MCH
             Bioblaster = 1866;
     }
 
-    private static MCHGauge Gauge => CustomComboFunctions.GetJobGauge<MCHGauge>();
-
     internal static class Config
     {
         internal static UserInt
@@ -73,6 +71,8 @@ internal class MCH
             MCH_ST_Queen = new("MCH_ST_Queen", 50),
             MCH_AoE_Hypercharge = new("MCH_AoE_Hypercharge", 50);
     }
+
+    internal static MCHGauge Gauge => CustomComboFunctions.GetJobGauge<MCHGauge>();
 
     internal class MCH_ST_DPS : CustomComboBase
     {
@@ -90,7 +90,7 @@ internal class MCH
 
                 if (CanWeave(actionID, ActionWatching.LastGCD))
                 {
-                    if (!WasLastWeaponskill(OriginalHook(Heatblast)))
+                    if (!WasLastGCD(OriginalHook(Heatblast)))
                     {
                         if (IsEnabled(Presets.MCH_ST_Barrel) && ActionReady(BarrelStabilizer) && TargetIsBoss() && InCombat()
                             && (ActionWatching.NumberOfGcdsUsed >= 2 || Service.Configuration.IgnoreGCDChecks || LevelIgnoreGCD()))
@@ -155,7 +155,7 @@ internal class MCH
                     }
 
                     if (IsEnabled(Presets.MCH_ST_Hypercharge) && !HasEffect(Buffs.Overheated) && ActionReady(Hypercharge)
-                        && !WasLastWeaponskill(OriginalHook(Heatblast))
+                        && !WasLastGCD(OriginalHook(Heatblast))
                         && (ActionWatching.NumberOfGcdsUsed >= 6 || Service.Configuration.IgnoreGCDChecks || LevelIgnoreGCD())
                         && (GetCooldownRemainingTime(Drill) > 8 || !LevelChecked(Drill) || !IsEnabled(Presets.MCH_ST_Drill))
                         && (GetCooldownRemainingTime(OriginalHook(AirAnchor)) > 8 || !LevelChecked(OriginalHook(AirAnchor)) || !IsEnabled(Presets.MCH_ST_AirAnchor))
@@ -181,7 +181,7 @@ internal class MCH
                     return Excavator;
                 }
 
-                if (IsEnabled(Presets.MCH_ST_Drill) && ActionReady(Drill) && !HasEffect(Buffs.Overheated) && !WasLastWeaponskill(Drill))
+                if (IsEnabled(Presets.MCH_ST_Drill) && ActionReady(Drill) && !HasEffect(Buffs.Overheated) && !WasLastGCD(Drill))
                 {
                     return Drill;
                 }
@@ -232,7 +232,7 @@ internal class MCH
             {
                 if (CanWeave(actionID, ActionWatching.LastGCD))
                 {
-                    if (!WasLastWeaponskill(OriginalHook(Heatblast)))
+                    if (!WasLastGCD(OriginalHook(Heatblast)))
                     {
                         if (IsEnabled(Presets.MCH_AoE_Barrel) && ActionReady(BarrelStabilizer) && InCombat())
                         {
@@ -248,7 +248,7 @@ internal class MCH
 
                         if (IsEnabled(Presets.MCH_AoE_GaussRico) && ActionReady(OriginalHook(GaussRound))
                             && GetRemainingCharges(OriginalHook(GaussRound)) >= GetRemainingCharges(OriginalHook(Ricochet))
-                            && !HasEffect(Buffs.Overheated) && !WasLastWeaponskill(OriginalHook(Heatblast))
+                            && !HasEffect(Buffs.Overheated) && !WasLastGCD(OriginalHook(Heatblast))
                             && (GetRemainingCharges(OriginalHook(GaussRound)) >= GetMaxCharges(OriginalHook(GaussRound)) - 1 || BossAlmostDead()))
                         {
                             return OriginalHook(GaussRound);
@@ -256,7 +256,7 @@ internal class MCH
 
                         if (IsEnabled(Presets.MCH_AoE_GaussRico) && ActionReady(OriginalHook(Ricochet))
                             && GetRemainingCharges(OriginalHook(Ricochet)) >= GetRemainingCharges(OriginalHook(GaussRound))
-                            && !HasEffect(Buffs.Overheated) && !WasLastWeaponskill(OriginalHook(Heatblast))
+                            && !HasEffect(Buffs.Overheated) && !WasLastGCD(OriginalHook(Heatblast))
                             && (GetRemainingCharges(OriginalHook(Ricochet)) >= GetMaxCharges(OriginalHook(Ricochet)) - 1 || BossAlmostDead()))
                         {
                             return OriginalHook(Ricochet);
@@ -280,7 +280,7 @@ internal class MCH
                     }
 
                     if (IsEnabled(Presets.MCH_AoE_Hypercharge) && !HasEffect(Buffs.Overheated) && ActionReady(Hypercharge)
-                        && !WasLastWeaponskill(OriginalHook(Heatblast))
+                        && !WasLastGCD(OriginalHook(Heatblast))
                         && (GetCooldownRemainingTime(Bioblaster) > 8 || !LevelChecked(Bioblaster))
                         && (Gauge.Heat >= GetOptionValue(Config.MCH_AoE_Hypercharge) || HasEffect(Buffs.Hypercharged)))
                     {

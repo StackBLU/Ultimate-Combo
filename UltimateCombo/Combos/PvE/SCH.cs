@@ -79,12 +79,12 @@ internal static class SCH
                 { Biolysis, Debuffs.Biolysis }
         };
 
-    private static SCHGauge Gauge => CustomComboFunctions.GetJobGauge<SCHGauge>();
-
     internal static class Config
     {
 
     }
+
+    internal static SCHGauge Gauge => CustomComboFunctions.GetJobGauge<SCHGauge>();
 
     internal class SCH_ST_DPS : CustomComboBase
     {
@@ -94,7 +94,7 @@ internal static class SCH
         {
             if ((actionID is Ruin or Broil or Broil2 or Broil3 or Broil4) && IsEnabled(Presets.SCH_ST_DPS))
             {
-                if ((WasLastSpell(Succor) || WasLastSpell(Concitation) || WasLastSpell(Adloquium) || WasLastSpell(SummonEos)) && !InCombat())
+                if ((WasLastGCD(Succor) || WasLastGCD(Concitation) || WasLastGCD(Adloquium) || WasLastGCD(SummonEos)) && !InCombat())
                 {
                     ActionWatching.CombatActions.Clear();
                 }
@@ -153,12 +153,13 @@ internal static class SCH
                     }
                 }
 
-                if (IsEnabled(Presets.SCH_ST_DPS_Fairy) && !HasPetPresent() && !HasEffect(Buffs.Dissipation) && ActionWatching.NumberOfGcdsUsed == 0)
+                if (IsEnabled(Presets.SCH_ST_DPS_Fairy) && !HasPetPresent() && !HasEffect(Buffs.Dissipation)
+                    && (ActionWatching.NumberOfGcdsUsed == 0 || ActionReady(Dissipation)))
                 {
                     return SummonEos;
                 }
 
-                if (IsEnabled(Presets.SCH_ST_DPS_Bio) && ActionReady(OriginalHook(Biolysis))
+                if (IsEnabled(Presets.SCH_ST_DPS_Bio) && ActionReady(OriginalHook(Biolysis)) && DebuffCullCheck()
                     && (ActionWatching.NumberOfGcdsUsed >= 1 || Service.Configuration.IgnoreGCDChecks || LevelIgnoreGCD()) && TargetWorthDoT()
                     && (!TargetHasEffect(BioList[OriginalHook(Biolysis)]) || TargetEffectRemainingTime(BioList[OriginalHook(Biolysis)]) <= 3
                     || ActionWatching.NumberOfGcdsUsed == 11))

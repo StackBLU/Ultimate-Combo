@@ -73,13 +73,13 @@ internal static class WHM
                 { Dia, Debuffs.Dia }
         };
 
-    private static WHMGauge Gauge => CustomComboFunctions.GetJobGauge<WHMGauge>();
-
     internal static class Config
     {
         internal static UserBool
             WHM_Raise_ThinAir = new("WHM_Raise_ThinAir");
     }
+
+    internal static WHMGauge Gauge => CustomComboFunctions.GetJobGauge<WHMGauge>();
 
     internal class WHM_ST_DPS : CustomComboBase
     {
@@ -89,7 +89,7 @@ internal static class WHM
         {
             if ((actionID is Stone1 or Stone2 or Stone3 or Stone4 or Glare1 or Glare3) && IsEnabled(Presets.WHM_ST_DPS))
             {
-                if ((WasLastSpell(Medica1) || WasLastSpell(Medica2) || WasLastSpell(Medica3)) && !InCombat())
+                if ((WasLastGCD(Medica1) || WasLastGCD(Medica2) || WasLastGCD(Medica3)) && !InCombat())
                 {
                     ActionWatching.CombatActions.Clear();
                 }
@@ -121,7 +121,7 @@ internal static class WHM
                     return AfflatusRapture;
                 }
 
-                if (IsEnabled(Presets.WHM_ST_DPS_Dia) && ActionReady(OriginalHook(Dia))
+                if (IsEnabled(Presets.WHM_ST_DPS_Dia) && ActionReady(OriginalHook(Dia)) && DebuffCullCheck()
                     && (ActionWatching.NumberOfGcdsUsed >= 1 || Service.Configuration.IgnoreGCDChecks || LevelIgnoreGCD()) && TargetWorthDoT()
                     && (!TargetHasEffect(DiaList[OriginalHook(Dia)]) || TargetEffectRemainingTime(DiaList[OriginalHook(Dia)]) <= 3))
                 {
@@ -210,8 +210,8 @@ internal static class WHM
                     return Regen;
                 }
 
-                if (IsEnabled(Presets.WHM_ST_Heals_ThinAir) && ActionReady(ThinAir) && !HasEffect(Buffs.ThinAir) && !WasLastSpell(AfflatusSolace)
-                    && !WasLastSpell(AfflatusMisery) && !WasLastSpell(Regen))
+                if (IsEnabled(Presets.WHM_ST_Heals_ThinAir) && ActionReady(ThinAir) && !HasEffect(Buffs.ThinAir)
+                    && !WasLastGCD(AfflatusSolace) && !WasLastGCD(AfflatusMisery))
                 {
                     return ThinAir;
                 }
@@ -252,13 +252,13 @@ internal static class WHM
                 }
 
                 if (IsEnabled(Presets.WHM_AoE_Heals_ThinAir) && ActionReady(ThinAir) && !HasEffect(Buffs.ThinAir)
-                    && !WasLastSpell(AfflatusRapture) && !WasLastSpell(AfflatusMisery))
+                    && !WasLastGCD(AfflatusRapture) && !WasLastGCD(AfflatusMisery))
                 {
                     return ThinAir;
                 }
 
                 if (IsEnabled(Presets.WHM_AoEHeals_Medica2) && !HasEffect(Buffs.Medica2) && !HasEffect(Buffs.Medica3)
-                    && !WasLastSpell(Medica2) && !WasLastSpell(Medica3) && (ActionReady(Medica2) || ActionReady(Medica3)))
+                    && !WasLastGCD(Medica2) && !WasLastGCD(Medica3) && (ActionReady(Medica2) || ActionReady(Medica3)))
                 {
                     return OriginalHook(Medica3);
                 }

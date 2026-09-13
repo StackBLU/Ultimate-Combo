@@ -110,7 +110,7 @@ internal static class VPRPvP
 
                     if (HasEffect(Buffs.Reawakened))
                     {
-                        if (WasLastWeaponskill(FourthGeneration))
+                        if (WasLastGCD(FourthGeneration))
                         {
                             return OriginalHook(Ouroboros);
                         }

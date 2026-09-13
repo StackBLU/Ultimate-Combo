@@ -65,12 +65,12 @@ internal class PCT
 
     }
 
-    private static PCTGauge Gauge => CustomComboFunctions.GetJobGauge<PCTGauge>();
-
     internal static class Config
     {
 
     }
+
+    internal static PCTGauge Gauge => CustomComboFunctions.GetJobGauge<PCTGauge>();
 
     internal class PCT_ST_DPS : CustomComboBase
     {
@@ -214,7 +214,7 @@ internal class PCT
                 }
 
                 if (IsEnabled(Presets.PCT_ST_Comet) && ActionReady(HolyInWhite) && Gauge.Paint > 0
-                    && (Gauge.Paint == 5 || IsMoving || WasLastSpell(RainbowDrip) || (HasEffect(Buffs.MonochromeTones) && HasEffect(Buffs.StarryMuse))))
+                    && (Gauge.Paint == 5 || IsMoving || WasLastGCD(RainbowDrip) || (HasEffect(Buffs.MonochromeTones) && HasEffect(Buffs.StarryMuse))))
                 {
                     if (HasEffect(Buffs.MonochromeTones))
                     {

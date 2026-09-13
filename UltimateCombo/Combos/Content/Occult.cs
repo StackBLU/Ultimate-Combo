@@ -518,7 +518,6 @@ internal static class Occult
         }
     }
 
-
     internal class Occult_Cannoneer : CustomComboBase
     {
         protected internal override Presets Preset { get; } = Presets.Occult_Cannoneer;

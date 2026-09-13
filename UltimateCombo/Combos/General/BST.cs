@@ -40,7 +40,30 @@ internal class BST
     internal static class Buffs
     {
         internal const ushort
-            MoonFlute = 1718;
+            Volant = 4595,
+            Rampant = 4596,
+            Durant = 4597,
+            Eldritch = 4598,
+            Sunstrider = 4599,
+            Moonstalker = 4600,
+            Nature = 4601,
+
+            Beast = 4644,
+            Vile = 4645,
+            Cloud = 4646,
+            Seed = 4647,
+            Wave = 4648,
+            Scale = 4649,
+            Soul = 4650,
+            Ash = 4651,
+
+            LingeringVantage = 4614,
+            WaveringHeart = 4643,
+
+            Vileskin = 4620,
+            Beastskin = 4621,
+            SeedsSown = 4622,
+            Scaleskin = 4623;
     }
 
     internal static class Debuffs
@@ -57,6 +80,8 @@ internal class BST
         internal static UserBool
             BLU_WingedReprobation = new("BLU_WingedReprobation");
     }
+
+    //internal static BSTGauge Gauge => CustomComboFunctions.GetJobGauge<BSTGauge>();
 
     internal class BST_ST_DPS : CustomComboBase
     {

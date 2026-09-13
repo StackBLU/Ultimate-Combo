@@ -194,7 +194,7 @@ internal static class BLU
                     }
                 }
 
-                if (IsOffCooldown(JKick) && actionID is MoonFlute && IsSpellActive(JKick) && WasLastSpell(MoonFlute))
+                if (IsOffCooldown(JKick) && actionID is MoonFlute && IsSpellActive(JKick) && WasLastGCD(MoonFlute))
                 {
                     return JKick;
                 }
@@ -204,7 +204,7 @@ internal static class BLU
                     return TripleTrident;
                 }
 
-                if (IsOffCooldown(Nightbloom) && actionID is MoonFlute && IsSpellActive(Nightbloom) && WasLastSpell(TripleTrident))
+                if (IsOffCooldown(Nightbloom) && actionID is MoonFlute && IsSpellActive(Nightbloom) && WasLastGCD(TripleTrident))
                 {
                     return Nightbloom;
                 }
@@ -212,11 +212,11 @@ internal static class BLU
                 if ((IsEnabled(Presets.BLU_MoonFluteOpener_DoTOpener) || IsEnabled(Presets.BLU_MoonFluteOpener_DoubleDoTOpener))
                     && actionID is MoonFlute)
                 {
-                    if (WasLastAbility(Nightbloom) && actionID is MoonFlute && IsSpellActive(Bristle) && !WasLastSpell(Bristle))
+                    if (WasLastAbility(Nightbloom) && actionID is MoonFlute && IsSpellActive(Bristle) && !WasLastGCD(Bristle))
                     {
                         return Bristle;
                     }
-                    if (IsOffCooldown(FeatherRain) && actionID is MoonFlute && IsSpellActive(FeatherRain) && WasLastSpell(Bristle))
+                    if (IsOffCooldown(FeatherRain) && actionID is MoonFlute && IsSpellActive(FeatherRain) && WasLastGCD(Bristle))
                     {
                         return FeatherRain;
                     }
@@ -228,7 +228,7 @@ internal static class BLU
 
                     if (!TargetHasEffectAny(Debuffs.BreathOfMagic) && !TargetHasEffectAny(Debuffs.MortalFlame) && actionID is MoonFlute)
                     {
-                        if (!WasLastSpell(BreathOfMagic) && !WasLastSpell(MortalFlame) && actionID is MoonFlute)
+                        if (!WasLastGCD(BreathOfMagic) && !WasLastGCD(MortalFlame) && actionID is MoonFlute)
                         {
                             if (actionID is MoonFlute && IsSpellActive(BreathOfMagic) && WasLastAction(SeaShanty))
                             {
@@ -243,17 +243,17 @@ internal static class BLU
                     }
 
                     if (IsOffCooldown(ShockStrike) && actionID is MoonFlute && IsSpellActive(ShockStrike)
-                        && (WasLastSpell(BreathOfMagic) || WasLastSpell(MortalFlame)))
+                        && (WasLastGCD(BreathOfMagic) || WasLastGCD(MortalFlame)))
                     {
                         return ShockStrike;
                     }
 
-                    if (WasLastAbility(ShockStrike) && actionID is MoonFlute && IsSpellActive(Bristle) && !WasLastSpell(Bristle))
+                    if (WasLastAbility(ShockStrike) && actionID is MoonFlute && IsSpellActive(Bristle) && !WasLastGCD(Bristle))
                     {
                         return Bristle;
                     }
 
-                    if (IsOffCooldown(Common.Swiftcast) && WasLastSpell(Bristle) && actionID is MoonFlute)
+                    if (IsOffCooldown(Common.Swiftcast) && WasLastGCD(Bristle) && actionID is MoonFlute)
                     {
                         return Common.Swiftcast;
                     }
@@ -289,12 +289,12 @@ internal static class BLU
                     && actionID is MoonFlute)
                 {
                     if (IsOffCooldown(WingedReprobation) && actionID is MoonFlute && IsSpellActive(WingedReprobation)
-                        && !WasLastSpell(WingedReprobation) && !WasLastAbility(FeatherRain) && !HasEffect(Buffs.WingedReprobation))
+                        && !WasLastGCD(WingedReprobation) && !WasLastAbility(FeatherRain) && !HasEffect(Buffs.WingedReprobation))
                     {
                         return WingedReprobation;
                     }
 
-                    if (IsOffCooldown(FeatherRain) && actionID is MoonFlute && IsSpellActive(FeatherRain) && WasLastSpell(WingedReprobation))
+                    if (IsOffCooldown(FeatherRain) && actionID is MoonFlute && IsSpellActive(FeatherRain) && WasLastGCD(WingedReprobation))
                     {
                         return FeatherRain;
                     }
@@ -310,7 +310,7 @@ internal static class BLU
                         return WingedReprobation;
                     }
 
-                    if (IsOffCooldown(ShockStrike) && actionID is MoonFlute && IsSpellActive(ShockStrike) && WasLastSpell(WingedReprobation))
+                    if (IsOffCooldown(ShockStrike) && actionID is MoonFlute && IsSpellActive(ShockStrike) && WasLastGCD(WingedReprobation))
                     {
                         return ShockStrike;
                     }
@@ -325,7 +325,7 @@ internal static class BLU
                         return Bristle;
                     }
 
-                    if (IsOffCooldown(Common.Swiftcast) && WasLastSpell(Bristle) && actionID is MoonFlute)
+                    if (IsOffCooldown(Common.Swiftcast) && WasLastGCD(Bristle) && actionID is MoonFlute)
                     {
                         return Common.Swiftcast;
                     }
@@ -645,7 +645,7 @@ internal static class BLU
             if (actionID is PeripheralSynthesis or MustardBomb && IsEnabled(Presets.BLU_PeriphBomb))
             {
                 if (IsSpellActive(MustardBomb) && (actionID is PeripheralSynthesis or MustardBomb)
-                    && (WasLastSpell(PeripheralSynthesis) || HasEffect(Buffs.Bristle) || TargetHasEffectAny(Debuffs.MustardBomb)
+                    && (WasLastGCD(PeripheralSynthesis) || HasEffect(Buffs.Bristle) || TargetHasEffectAny(Debuffs.MustardBomb)
                     || TargetHasEffectAny(Debuffs.Lightheaded)))
                 {
                     return MustardBomb;
@@ -671,25 +671,25 @@ internal static class BLU
                     return Ultravibration;
                 }
 
-                if (IsSpellActive(HydroPull) && !WasLastSpell(HydroPull) && !WasLastSpell(RamsVoice) && !TargetHasEffectAny(Debuffs.DeepFreeze)
+                if (IsSpellActive(HydroPull) && !WasLastGCD(HydroPull) && !WasLastGCD(RamsVoice) && !TargetHasEffectAny(Debuffs.DeepFreeze)
                     && (actionID is HydroPull or RamsVoice or Ultravibration))
                 {
                     return HydroPull;
                 }
 
-                if (IsSpellActive(RamsVoice) && !TargetHasEffectAny(Debuffs.DeepFreeze) && (WasLastSpell(HydroPull) || !IsSpellActive(HydroPull))
+                if (IsSpellActive(RamsVoice) && !TargetHasEffectAny(Debuffs.DeepFreeze) && (WasLastGCD(HydroPull) || !IsSpellActive(HydroPull))
                     && (actionID is HydroPull or RamsVoice or Ultravibration))
                 {
                     return RamsVoice;
                 }
 
-                if (WasLastSpell(RamsVoice) && IsOffCooldown(Common.Swiftcast) && IsOffCooldown(Ultravibration) && TargetHasEffectAny(Debuffs.DeepFreeze)
+                if (WasLastGCD(RamsVoice) && IsOffCooldown(Common.Swiftcast) && IsOffCooldown(Ultravibration) && TargetHasEffectAny(Debuffs.DeepFreeze)
                     && (actionID is HydroPull or RamsVoice or Ultravibration))
                 {
                     return Common.Swiftcast;
                 }
 
-                if (IsSpellActive(Ultravibration) && WasLastSpell(RamsVoice) && TargetHasEffectAny(Debuffs.DeepFreeze)
+                if (IsSpellActive(Ultravibration) && WasLastGCD(RamsVoice) && TargetHasEffectAny(Debuffs.DeepFreeze)
                     && (actionID is HydroPull or RamsVoice or Ultravibration))
                 {
                     return Ultravibration;
@@ -732,7 +732,7 @@ internal static class BLU
                     return MightyGuard;
                 }
 
-                if (IsEnabled(Presets.BLU_Tank_ToadOil) && !HasEffect(Buffs.ToadOil) && IsSpellActive(ToadOil) && !WasLastSpell(ToadOil) && actionID is GoblinPunch)
+                if (IsEnabled(Presets.BLU_Tank_ToadOil) && !HasEffect(Buffs.ToadOil) && IsSpellActive(ToadOil) && !WasLastGCD(ToadOil) && actionID is GoblinPunch)
                 {
                     return ToadOil;
                 }
@@ -754,12 +754,12 @@ internal static class BLU
                 }
 
                 if (IsEnabled(Presets.BLU_Tank_PeatClean) && !TargetHasEffectAny(Debuffs.PeatPelt) && actionID is GoblinPunch
-                    && (!HasEffect(Buffs.DeepClean) || EffectRemainingTime(Buffs.DeepClean) < 2) && !WasLastSpell(PeatPelt) && IsSpellActive(PeatPelt))
+                    && (!HasEffect(Buffs.DeepClean) || EffectRemainingTime(Buffs.DeepClean) < 2) && !WasLastGCD(PeatPelt) && IsSpellActive(PeatPelt))
                 {
                     return PeatPelt;
                 }
 
-                if (IsEnabled(Presets.BLU_Tank_PeatClean) && actionID is GoblinPunch && (WasLastSpell(PeatPelt) || TargetHasEffectAny(Debuffs.PeatPelt))
+                if (IsEnabled(Presets.BLU_Tank_PeatClean) && actionID is GoblinPunch && (WasLastGCD(PeatPelt) || TargetHasEffectAny(Debuffs.PeatPelt))
                     && IsSpellActive(DeepClean))
                 {
                     return DeepClean;
@@ -870,7 +870,7 @@ internal static class BLU
                     }
 
                     if (IsEnabled(Presets.BLU_Treasure_Tank_Rehydration) && IsSpellActive(Rehydration)
-                        && PlayerHealthPercentageHp() <= GetOptionValue(Config.BLU_TreasureRehydration) && !WasLastSpell(Devour) && !WasLastSpell(WhiteWind))
+                        && PlayerHealthPercentageHp() <= GetOptionValue(Config.BLU_TreasureRehydration) && !WasLastGCD(Devour) && !WasLastGCD(WhiteWind))
                     {
                         if (ActionReady(Common.Swiftcast))
                         {
@@ -969,7 +969,7 @@ internal static class BLU
 
                     if (IsEnabled(Presets.BLU_Treasure_Tank_Rehydration) && IsSpellActive(Rehydration)
                         && PlayerHealthPercentageHp() <= GetOptionValue(Config.BLU_TreasureRehydration)
-                        && ActionReady(Common.Swiftcast) && !WasLastSpell(WhiteWind) && !WasLastSpell(Devour) && !WasLastSpell(WhiteWind))
+                        && ActionReady(Common.Swiftcast) && !WasLastGCD(WhiteWind) && !WasLastGCD(Devour) && !WasLastGCD(WhiteWind))
                     {
                         return Common.Swiftcast;
                     }
@@ -992,7 +992,7 @@ internal static class BLU
                     }
 
                     if (IsEnabled(Presets.BLU_Treasure_Tank_BreathOfMagic) && TargetIsBoss() && TargetWorthDoT()
-                        && !TargetHasEffectAny(Debuffs.BreathOfMagic) && !WasLastSpell(BreathOfMagic))
+                        && !TargetHasEffectAny(Debuffs.BreathOfMagic) && !WasLastGCD(BreathOfMagic))
                     {
                         if (!HasEffect(Buffs.Bristle))
                         {
@@ -1003,7 +1003,7 @@ internal static class BLU
                     }
 
                     if (IsEnabled(Presets.BLU_Treasure_Tank_MortalFlame) && TargetIsBoss() && TargetWorthDoT()
-                        && !TargetHasEffectAny(Debuffs.MortalFlame) && !WasLastSpell(MortalFlame))
+                        && !TargetHasEffectAny(Debuffs.MortalFlame) && !WasLastGCD(MortalFlame))
                     {
                         if (!HasEffect(Buffs.Bristle))
                         {
@@ -1015,7 +1015,7 @@ internal static class BLU
 
                     if (IsEnabled(Presets.BLU_Treasure_Tank_TripleTrident) && IsSpellActive(TripleTrident)
                         && TargetIsBoss() && TargetWorthDoT()
-                        && (IsOffCooldown(TripleTrident) || GetCooldownRemainingTime(TripleTrident) < 5) && !WasLastSpell(TripleTrident))
+                        && (IsOffCooldown(TripleTrident) || GetCooldownRemainingTime(TripleTrident) < 5) && !WasLastGCD(TripleTrident))
                     {
                         if (!HasEffect(Buffs.Whistle))
                         {

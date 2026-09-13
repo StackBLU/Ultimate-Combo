@@ -67,12 +67,12 @@ internal class DRG
             ChaoticSpring = 2719;
     }
 
-    internal static DRGGauge Gauge => CustomComboFunctions.GetJobGauge<DRGGauge>();
-
     internal static class Config
     {
 
     }
+
+    internal static DRGGauge Gauge => CustomComboFunctions.GetJobGauge<DRGGauge>();
 
     internal class DRG_ST_DPS : CustomComboBase
     {
@@ -101,7 +101,7 @@ internal class DRG
                             return BattleLitany;
                         }
 
-                        if (IsEnabled(Presets.DRG_ST_Geirskogul) && ActionReady(Geirskogul))
+                        if (IsEnabled(Presets.DRG_ST_Geirskogul) && ActionReady(Geirskogul) && TargetIsBoss())
                         {
                             return Geirskogul;
                         }
@@ -116,8 +116,8 @@ internal class DRG
                             && (HasEffect(Buffs.LanceCharge) || GetRemainingCharges(LifeSurge) == GetMaxCharges(LifeSurge)
                             || (GetRemainingCharges(LifeSurge) == GetMaxCharges(LifeSurge) - 1 && GetCooldownChargeRemainingTime(LifeSurge) < 5))
                             && !HasEffect(Buffs.LifeSurge)
-                            && ((WasLastWeaponskill(WheelingThrust) && LevelChecked(Drakesbane))
-                            || WasLastWeaponskill(OriginalHook(LanceBarrage))))
+                            && ((WasLastGCD(WheelingThrust) && LevelChecked(Drakesbane))
+                            || WasLastGCD(OriginalHook(LanceBarrage))))
                         {
                             return LifeSurge;
                         }
@@ -234,7 +234,7 @@ internal class DRG
                         return BattleLitany;
                     }
 
-                    if (IsEnabled(Presets.DRG_AoE_Geirskogul) && ActionReady(Geirskogul))
+                    if (IsEnabled(Presets.DRG_AoE_Geirskogul) && ActionReady(Geirskogul) && TargetIsBoss())
                     {
                         return Geirskogul;
                     }
@@ -263,7 +263,7 @@ internal class DRG
 
                     if (IsEnabled(Presets.DRG_AoE_LifeSurge) && ActionReady(LifeSurge)
                         && HasEffect(Buffs.LanceCharge) && !HasEffect(Buffs.LifeSurge)
-                        && WasLastWeaponskill(SonicThrust))
+                        && WasLastGCD(SonicThrust))
                     {
                         return LifeSurge;
                     }

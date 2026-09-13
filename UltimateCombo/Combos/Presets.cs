@@ -11,7 +11,7 @@ public enum Presets
 {
     #region Extra
 
-    #region FISHING - 51000
+    #region Fishing - 51000
 
     [ConflictingCombos(FSH_CastHook)]
     [ReplaceSkill(FSH.Cast, FSH.Rest)]
@@ -63,7 +63,7 @@ public enum Presets
 
     #endregion
 
-    #region ALL - 100000
+    #region All - 100000
 
     #region Chocobo
 
@@ -836,7 +836,7 @@ public enum Presets
 
     #region Tanks
 
-    #region PALADIN - 11000
+    #region Paladin - 11000
 
     #region Single Target DPS
 
@@ -960,7 +960,7 @@ public enum Presets
 
     #endregion
 
-    #region WARRIOR - 18000
+    #region Warrior - 18000
 
     #region Single Target DPS
 
@@ -1072,7 +1072,7 @@ public enum Presets
 
     #endregion
 
-    #region DARK KNIGHT - 5000
+    #region Dark Knight - 5000
 
     #region Single Target DPS
 
@@ -1192,7 +1192,7 @@ public enum Presets
 
     #endregion
 
-    #region GUNBREAKER - 7000
+    #region Gunbreaker - 7000
 
     #region Single Target DPS
 
@@ -1320,7 +1320,7 @@ public enum Presets
 
     #region Healers
 
-    #region WHITE MAGE - 19000
+    #region White Mage - 19000
 
     #region Single Target DPS
 
@@ -1434,7 +1434,7 @@ public enum Presets
 
     #endregion
 
-    #region SCHOLAR - 16000
+    #region Scholar - 16000
 
     #region Single Target DPS
 
@@ -1542,7 +1542,7 @@ public enum Presets
 
     #endregion
 
-    #region ASTROLOGIAN - 1000
+    #region Astrologian - 1000
 
     #region Single Target DPS
 
@@ -1670,7 +1670,7 @@ public enum Presets
 
     #endregion
 
-    #region SAGE - 14000
+    #region Sage - 14000
 
     #region Single Target DPS
 
@@ -1788,7 +1788,7 @@ public enum Presets
 
     #region Melee DPS
 
-    #region MONK - 9000
+    #region Monk - 9000
 
     #region Single Target DPS
 
@@ -1876,7 +1876,7 @@ public enum Presets
 
     #endregion
 
-    #region DRAGOON - 6000
+    #region Dragoon - 6000
 
     #region Single Target
 
@@ -1971,7 +1971,7 @@ public enum Presets
 
     #endregion
 
-    #region NINJA - 10000
+    #region Ninja - 10000
 
     #region Singlet Target DPS
 
@@ -2087,7 +2087,7 @@ public enum Presets
 
     #endregion
 
-    #region SAMURAI - 15000
+    #region Samurai - 15000
 
     #region Single Target DPS
 
@@ -2211,7 +2211,7 @@ public enum Presets
 
     #endregion
 
-    #region REAPER - 12000
+    #region Reaper - 12000
 
     #region Single Target DPS
 
@@ -2331,7 +2331,7 @@ public enum Presets
 
     #endregion
 
-    #region VIPER - 30000
+    #region Viper - 30000
 
     #region Single Target DPS
 
@@ -2424,7 +2424,7 @@ public enum Presets
 
     #region Physical Ranged DPS
 
-    #region BARD - 3000
+    #region Bard - 3000
 
     #region Single Target DPS
 
@@ -2532,7 +2532,7 @@ public enum Presets
 
     #endregion
 
-    #region MACHINIST - 8000
+    #region Machinist - 8000
 
     #region Single Target DPS
 
@@ -2632,7 +2632,7 @@ public enum Presets
 
     #endregion
 
-    #region DANCER - 4000
+    #region Dancer - 4000
 
     #region Single Target DPS
 
@@ -2748,7 +2748,7 @@ public enum Presets
 
     #region Magical Ranged DPS
 
-    #region BLACK MAGE - 2000
+    #region Black Mage - 2000
 
     #region Single Target DPS
 
@@ -2848,7 +2848,7 @@ public enum Presets
 
     #endregion
 
-    #region SUMMONER - 17000
+    #region Summoner - 17000
 
     #region Single Target DPS
 
@@ -2964,7 +2964,7 @@ public enum Presets
 
     #endregion
 
-    #region RED MAGE - 13000
+    #region Red Mage - 13000
 
     #region Single Target DPS
 
@@ -3068,7 +3068,7 @@ public enum Presets
 
     #endregion
 
-    #region PICTOMANCER - 20000
+    #region Pictomancer - 20000
 
     #region Single Target DPS
 
@@ -3180,7 +3180,7 @@ public enum Presets
 
     #endregion
 
-    #region BLUE MAGE - 70000
+    #region Blue Mage - 70000
 
     [ReplaceSkill(BLU.MoonFlute)]
     [BlueInactive(BLU.Whistle, BLU.Tingle, BLU.RoseOfDestruction, BLU.MoonFlute, BLU.JKick, BLU.TripleTrident, BLU.Nightbloom, BLU.WingedReprobation, BLU.SeaShanty, BLU.BeingMortal, BLU.ShockStrike, BLU.Surpanakha, BLU.MatraMagic, BLU.PhantomFlurry, BLU.Bristle, BLU.FeatherRain)]
@@ -3330,7 +3330,7 @@ public enum Presets
 
     #region PvP
 
-    #region PvP GLOBALS - 1100000
+    #region PvP Globals - 1100000
 
     [PvP]
     [ReplaceSkill(AllPvP.Recuperate)]
@@ -3452,7 +3452,7 @@ public enum Presets
 
     #endregion
 
-    #region ASTROLOGIAN - 111000
+    #region Astrologian - 111000
 
     [PvP]
     [CustomComboInfo("Combo Mode", "", AST.JobID)]
@@ -3470,7 +3470,7 @@ public enum Presets
 
     #endregion
 
-    #region BLACK MAGE - 112000
+    #region Black Mage - 112000
 
     [PvP]
     [CustomComboInfo("Combo Mode", "", BLM.JobID)]
@@ -3503,7 +3503,7 @@ public enum Presets
 
     #endregion
 
-    #region BARD - 113000
+    #region Bard - 113000
 
     [PvP]
     [CustomComboInfo("Combo Mode", "", BRD.JobID)]
@@ -3550,7 +3550,7 @@ public enum Presets
 
     #endregion
 
-    #region DANCER - 114000
+    #region Dancer - 114000
 
     [PvP]
     [CustomComboInfo("Combo Mode", "", DNC.JobID)]
@@ -3573,7 +3573,7 @@ public enum Presets
 
     #endregion
 
-    #region DARK KNIGHT - 115000
+    #region Dark Knight - 115000
 
     [PvP]
     [CustomComboInfo("Combo Mode", "", DRK.JobID)]
@@ -3621,7 +3621,7 @@ public enum Presets
 
     #endregion
 
-    #region DRAGOON - 116000
+    #region Dragoon - 116000
 
     [PvP]
     [CustomComboInfo("Combo Mode", "", DRG.JobID)]
@@ -3649,7 +3649,7 @@ public enum Presets
 
     #endregion
 
-    #region GUNBREAKER - 117000
+    #region Gunbreaker - 117000
 
     [PvP]
     [CustomComboInfo("Combo Mode", "", GNB.JobID)]
@@ -3692,7 +3692,7 @@ public enum Presets
 
     #endregion
 
-    #region MACHINIST - 118000
+    #region Machinist - 118000
 
     [PvP]
     [CustomComboInfo("Combo Mode", "", MCH.JobID)]
@@ -3725,7 +3725,7 @@ public enum Presets
 
     #endregion
 
-    #region MONK - 119000
+    #region Monk - 119000
 
     [PvP]
     [CustomComboInfo("Combo Mode", "", MNK.JobID)]
@@ -3758,7 +3758,7 @@ public enum Presets
 
     #endregion
 
-    #region NINJA - 120000
+    #region Ninja - 120000
 
     [PvP]
     [CustomComboInfo("Combo Mode", "", NIN.JobID)]
@@ -3801,7 +3801,7 @@ public enum Presets
 
     #endregion
 
-    #region PICTOMANCER - 130000
+    #region Pictomancer - 130000
 
     [PvP]
     [CustomComboInfo("Combo Mode", "", PCT.JobID)]
@@ -3844,7 +3844,7 @@ public enum Presets
 
     #endregion
 
-    #region PALADIN - 121000
+    #region Paladin - 121000
 
     [PvP]
     [CustomComboInfo("Combo Mode", "", PLD.JobID)]
@@ -3897,7 +3897,7 @@ public enum Presets
 
     #endregion
 
-    #region REAPER - 122000
+    #region Reaper - 122000
 
     [PvP]
     [CustomComboInfo("Combo Mode", "", RPR.JobID)]
@@ -3935,7 +3935,7 @@ public enum Presets
 
     #endregion
 
-    #region RED MAGE - 123000
+    #region Red Mage - 123000
 
     [PvP]
     [CustomComboInfo("Combo Mode", "", RDM.JobID)]
@@ -3988,7 +3988,7 @@ public enum Presets
 
     #endregion
 
-    #region SAGE - 124000
+    #region Sage - 124000
 
     [PvP]
     [CustomComboInfo("Combo Mode", "", SGE.JobID)]
@@ -4031,7 +4031,7 @@ public enum Presets
 
     #endregion
 
-    #region SAMURAI - 125000
+    #region Samurai - 125000
 
     [PvP]
     [CustomComboInfo("Combo Mode", "", SAM.JobID)]
@@ -4069,7 +4069,7 @@ public enum Presets
 
     #endregion
 
-    #region SCHOLAR - 126000
+    #region Scholar - 126000
 
     [PvP]
     [CustomComboInfo("Combo Mode", "", SCH.JobID)]
@@ -4086,7 +4086,7 @@ public enum Presets
 
     #endregion
 
-    #region SUMMONER - 127000
+    #region Summoner - 127000
 
     [PvP]
     [CustomComboInfo("Combo Mode", "", SMN.JobID)]
@@ -4134,7 +4134,7 @@ public enum Presets
 
     #endregion
 
-    #region VIPER - 131000
+    #region Viper - 131000
 
     [PvP]
     [CustomComboInfo("Combo Mode", "", VPR.JobID)]
@@ -4172,7 +4172,7 @@ public enum Presets
 
     #endregion
 
-    #region WARRIOR - 128000
+    #region Warrior - 128000
 
     [PvP]
     [CustomComboInfo("Combo Mode", "", WAR.JobID)]
@@ -4230,7 +4230,7 @@ public enum Presets
 
     #endregion
 
-    #region WHITE MAGE - 129000
+    #region White Mage - 129000
 
     [PvP]
     [CustomComboInfo("Combo Mode", "", WHM.JobID)]

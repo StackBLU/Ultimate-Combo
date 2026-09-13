@@ -66,12 +66,12 @@ internal static class MNK
             EarthsRumination = 3841;
     }
 
-    internal static MNKGauge Gauge => CustomComboFunctions.GetJobGauge<MNKGauge>();
-
     internal static class Config
     {
 
     }
+
+    internal static MNKGauge Gauge => CustomComboFunctions.GetJobGauge<MNKGauge>();
 
     internal class MNK_ST_DPS : CustomComboBase
     {
@@ -99,24 +99,22 @@ internal static class MNK
                 {
                     if (ActionWatching.NumberOfGcdsUsed >= 3 || Service.Configuration.IgnoreGCDChecks || LevelIgnoreGCD())
                     {
-                        if (IsEnabled(Presets.MNK_ST_Fire) && ActionReady(RiddleOfFire))
+                        if (IsEnabled(Presets.MNK_ST_Fire) && ActionReady(RiddleOfFire) && TargetIsBoss())
                         {
                             return RiddleOfFire;
                         }
 
-                        if (IsEnabled(Presets.MNK_ST_Brother) && ActionReady(Brotherhood) && TargetIsBoss()
-                            && !HasEffectAny(Buffs.Brotherhood))
+                        if (IsEnabled(Presets.MNK_ST_Brother) && ActionReady(Brotherhood) && TargetIsBoss() && !HasEffectAny(Buffs.Brotherhood))
                         {
                             return Brotherhood;
                         }
 
-                        if (IsEnabled(Presets.MNK_ST_Wind) && ActionReady(RiddleOfWind))
+                        if (IsEnabled(Presets.MNK_ST_Wind) && ActionReady(RiddleOfWind) && TargetIsBoss())
                         {
                             return RiddleOfWind;
                         }
 
-                        if (IsEnabled(Presets.MNK_ST_Meditation) && ActionReady(OriginalHook(SteelPeak))
-                            && Gauge.Chakra >= 5 && InCombat())
+                        if (IsEnabled(Presets.MNK_ST_Meditation) && ActionReady(OriginalHook(SteelPeak)) && Gauge.Chakra >= 5 && InCombat())
                         {
                             return OriginalHook(SteelPeak);
                         }
@@ -125,7 +123,7 @@ internal static class MNK
                     if (IsEnabled(Presets.MNK_ST_PerfectBalance) && ActionReady(PerfectBalance)
                         && (GetCooldownRemainingTime(RiddleOfFire) < 5 || !LevelChecked(RiddleOfFire) || HasEffect(Buffs.RiddleOfFire))
                         && !HasEffect(Buffs.PerfectBalance) && Gauge.BeastChakra.Contains(BeastChakra.None)
-                        && (WasLastWeaponskill(OriginalHook(Bootshine)) || WasLastWeaponskill(DragonKick)))
+                        && (WasLastGCD(OriginalHook(Bootshine)) || WasLastGCD(DragonKick)))
                     {
                         return PerfectBalance;
                     }
@@ -287,7 +285,7 @@ internal static class MNK
 
                 if (CanWeave(actionID, ActionWatching.LastGCD))
                 {
-                    if (IsEnabled(Presets.MNK_AoE_Fire) && ActionReady(RiddleOfFire))
+                    if (IsEnabled(Presets.MNK_AoE_Fire) && ActionReady(RiddleOfFire) && TargetIsBoss())
                     {
                         return RiddleOfFire;
                     }
@@ -297,7 +295,7 @@ internal static class MNK
                         return Brotherhood;
                     }
 
-                    if (IsEnabled(Presets.MNK_AoE_Wind) && ActionReady(RiddleOfWind))
+                    if (IsEnabled(Presets.MNK_AoE_Wind) && ActionReady(RiddleOfWind) && TargetIsBoss())
                     {
                         return RiddleOfWind;
                     }
@@ -305,7 +303,7 @@ internal static class MNK
                     if (IsEnabled(Presets.MNK_AoE_PerfectBalance) && ActionReady(PerfectBalance)
                         && (GetCooldownRemainingTime(RiddleOfFire) < 5 || !LevelChecked(RiddleOfFire) || HasEffect(Buffs.RiddleOfFire))
                         && !HasEffect(Buffs.PerfectBalance) && Gauge.BeastChakra.Contains(BeastChakra.None)
-                        && WasLastWeaponskill(OriginalHook(ArmOfTheDestroyer)))
+                        && WasLastGCD(OriginalHook(ArmOfTheDestroyer)))
                     {
                         return PerfectBalance;
                     }

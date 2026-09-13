@@ -326,7 +326,7 @@ internal static class UserConfigItems
 
         #region Tanks
 
-        #region PALADIN
+        #region Paladin
 
         if (preset == Presets.PLD_ST_Sheltron && enabled)
         {
@@ -379,7 +379,7 @@ internal static class UserConfigItems
 
         #endregion
 
-        #region WARRIOR
+        #region Warrior
 
         if (preset == Presets.WAR_ST_StormsEye && enabled)
         {
@@ -427,7 +427,7 @@ internal static class UserConfigItems
 
         #endregion
 
-        #region DARK KNIGHT
+        #region Dark Knight
 
         if (preset == Presets.DRK_ST_Edge && enabled)
         {
@@ -480,7 +480,7 @@ internal static class UserConfigItems
 
         #endregion
 
-        #region GUNBREAKER
+        #region Gunbreaker
 
         if (preset == Presets.GNB_ST_Invuln && enabled)
         {
@@ -498,7 +498,7 @@ internal static class UserConfigItems
 
         #region Healers
 
-        #region WHITE MAGE
+        #region White Mage
 
 
 
@@ -510,13 +510,13 @@ internal static class UserConfigItems
 
         #endregion
 
-        #region SCHOLAR
+        #region Scholar
 
 
 
         #endregion
 
-        #region ASTROLOGIAN
+        #region Astrologian
 
         if (preset is Presets.AST_ST_DPS_AutoDraw && enabled)
         {
@@ -539,7 +539,7 @@ internal static class UserConfigItems
 
         #endregion
 
-        #region SAGE
+        #region Sage
 
         if (preset is Presets.SGE_ST_DPS_Rhizo && enabled)
         {
@@ -567,19 +567,19 @@ internal static class UserConfigItems
 
         #region Melee DPS
 
-        #region MONK
+        #region Monk
 
 
 
         #endregion
 
-        #region DRAGOON
+        #region Dragoon
 
 
 
         #endregion
 
-        #region NINJA
+        #region Ninja
 
         #region PvP
 
@@ -589,7 +589,7 @@ internal static class UserConfigItems
 
         #endregion
 
-        #region SAMURAI
+        #region Samurai
 
         if (preset is Presets.SAM_ST_Shinten && enabled)
         {
@@ -603,19 +603,19 @@ internal static class UserConfigItems
 
         #endregion
 
-        #region REAPER
+        #region Reaper
 
 
 
         #endregion
 
-        #region VIPER
+        #region Viper
 
 
 
         #endregion
 
-        #region BEASTMASTER
+        #region Beastmaster
 
 
 
@@ -625,13 +625,13 @@ internal static class UserConfigItems
 
         #region Physical Ranged DPS
 
-        #region BARD
+        #region Bard
 
 
 
         #endregion
 
-        #region MACHINIST
+        #region Machinist
 
         if (preset is Presets.MCH_ST_Hypercharge && enabled)
         {
@@ -650,7 +650,7 @@ internal static class UserConfigItems
 
         #endregion
 
-        #region DANCER
+        #region Dancer
 
 
 
@@ -660,13 +660,13 @@ internal static class UserConfigItems
 
         #region Magical Ranged DPS
 
-        #region BLACK MAGE
+        #region Black Mage
 
 
 
         #endregion
 
-        #region SUMMONER
+        #region Summoner
 
         if (preset is Presets.SMN_ST_Astral && enabled)
         {
@@ -684,13 +684,13 @@ internal static class UserConfigItems
 
         #endregion
 
-        #region RED MAGE
+        #region Red Mage
 
 
 
         #endregion
 
-        #region PICTOMANCER
+        #region Pictomancer
 
         if (preset == Presets.PCTPvP_AutoPalette && enabled)
         {
@@ -699,7 +699,7 @@ internal static class UserConfigItems
 
         #endregion
 
-        #region BLUE MAGE
+        #region Blue Mage
 
         if (preset is Presets.BLU_BloodDrain && enabled)
         {

@@ -63,8 +63,6 @@ internal static class PLD
             Guardian = 3829;
     }
 
-    private static PLDGauge Gauge => CustomComboFunctions.GetJobGauge<PLDGauge>();
-
     internal static class Config
     {
         internal static UserInt
@@ -79,6 +77,8 @@ internal static class PLD
            PLD_ST_InterveneSave = new("PLD_ST_InterveneSave"),
            PLD_AoE_InterveneSave = new("PLD_AoE_InterveneSave");
     }
+
+    internal static PLDGauge Gauge => CustomComboFunctions.GetJobGauge<PLDGauge>();
 
     internal class PLD_ST_DPS : CustomComboBase
     {
@@ -155,14 +155,14 @@ internal static class PLD
                 }
 
                 if (IsEnabled(Presets.PLD_ST_Confiteor) && ActionReady(OriginalHook(Confiteor)) && CurrentMP >= GetResourceCost(OriginalHook(Confiteor))
-                    && (HasEffect(Buffs.ConfiteorReady)
-                    || ((WasLastSpell(Confiteor) || WasLastSpell(BladeOfFaith) || WasLastSpell(BladeOfTruth)) && LevelChecked(BladeOfFaith))))
+                    && (HasEffect(Buffs.ConfiteorReady) || HasEffect(Buffs.Requiescat)
+                    || ((WasLastGCD(Confiteor) || WasLastGCD(BladeOfFaith) || WasLastGCD(BladeOfTruth)) && LevelChecked(BladeOfFaith))))
                 {
                     return OriginalHook(Confiteor);
                 }
 
                 if (IsEnabled(Presets.PLD_ST_FightOrFlight) && HasEffect(Buffs.GoringBladeReady)
-                    && (WasLastSpell(BladeOfValor) || !LevelChecked(OriginalHook(BladeOfFaith)) || EffectRemainingTime(Buffs.GoringBladeReady) < 5))
+                    && (WasLastGCD(BladeOfValor) || !LevelChecked(OriginalHook(BladeOfFaith)) || EffectRemainingTime(Buffs.GoringBladeReady) < 5))
                 {
                     return GoringBlade;
                 }
@@ -283,8 +283,8 @@ internal static class PLD
                 }
 
                 if (IsEnabled(Presets.PLD_AoE_Confiteor) && ActionReady(OriginalHook(Confiteor)) && CurrentMP >= GetResourceCost(OriginalHook(Confiteor))
-                    && (HasEffect(Buffs.ConfiteorReady)
-                    || ((WasLastSpell(Confiteor) || WasLastSpell(BladeOfFaith) || WasLastSpell(BladeOfTruth)) && LevelChecked(BladeOfFaith))))
+                    && (HasEffect(Buffs.ConfiteorReady) || HasEffect(Buffs.Requiescat)
+                    || ((WasLastGCD(Confiteor) || WasLastGCD(BladeOfFaith) || WasLastGCD(BladeOfTruth)) && LevelChecked(BladeOfFaith))))
                 {
                     return OriginalHook(Confiteor);
                 }
@@ -296,7 +296,7 @@ internal static class PLD
                     return HolyCircle;
                 }
 
-                if (ComboTime > 0 && WasLastWeaponskill(TotalEclipse) && ActionReady(Prominence))
+                if (ComboTime > 0 && WasLastGCD(TotalEclipse) && ActionReady(Prominence))
                 {
                     return Prominence;
                 }
