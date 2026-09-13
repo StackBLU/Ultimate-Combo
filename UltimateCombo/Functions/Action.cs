@@ -11,6 +11,8 @@ namespace UltimateCombo.ComboHelper.Functions;
 
 internal abstract partial class CustomComboFunctions
 {
+    private const float BaseActionQueue = 0.5f;
+
     public static unsafe float ComboTime => ActionManager.Instance()->Combo.Timer;
 
     public static unsafe uint ComboAction => ActionManager.Instance()->Combo.Action;
@@ -63,31 +65,28 @@ internal abstract partial class CustomComboFunctions
         return false;
     }
 
-    internal static bool ActionReady(uint actionID)
+    internal static unsafe bool ActionReady(uint actionID)
     {
-        ActionWatching.ActionAttackType attackType = ActionWatching.GetAttackType(actionID);
-
-        if (!LevelChecked(actionID) || (!HasCharges(actionID) && GetCooldown(actionID).CooldownTotal > 6))
+        if (actionID == 0 || !LevelChecked(actionID))
         {
             return false;
         }
 
-        if (attackType == ActionWatching.ActionAttackType.Weaponskill)
+        ActionWatching.ActionAttackType attackType = ActionWatching.GetAttackType(actionID);
+
+        if (attackType == ActionWatching.ActionAttackType.Ability && !HasCharges(actionID))
         {
-            return !HasPacification();
+            return false;
         }
 
-        if (attackType == ActionWatching.ActionAttackType.Spell)
+        if (attackType != ActionWatching.ActionAttackType.Ability && !HasCharges(actionID) && GetCooldownRemainingTime(actionID) > RemainingGCD + BaseActionQueue)
         {
-            return !HasSilence();
+            return false;
         }
 
-        if (attackType == ActionWatching.ActionAttackType.Ability)
-        {
-            return !HasAmnesia() && !HasSilence();
-        }
+        var status = ActionManager.Instance()->GetActionStatus(ActionType.Action, actionID, checkRecastActive: false, checkCastingActive: false);
 
-        return false;
+        return status is 0 or 580 or 582;
     }
 
     internal static bool DutyActionReady(uint id)

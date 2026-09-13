@@ -154,9 +154,7 @@ internal static class PLD
                     }
                 }
 
-                if (IsEnabled(Presets.PLD_ST_Confiteor) && ActionReady(OriginalHook(Confiteor)) && CurrentMP >= GetResourceCost(OriginalHook(Confiteor))
-                    && (HasEffect(Buffs.ConfiteorReady) || HasEffect(Buffs.Requiescat)
-                    || ((WasLastGCD(Confiteor) || WasLastGCD(BladeOfFaith) || WasLastGCD(BladeOfTruth)) && LevelChecked(BladeOfFaith))))
+                if (IsEnabled(Presets.PLD_ST_Confiteor) && ActionReady(OriginalHook(Confiteor)) && CurrentMP >= GetResourceCost(OriginalHook(Confiteor)))
                 {
                     return OriginalHook(Confiteor);
                 }
@@ -282,9 +280,7 @@ internal static class PLD
                     }
                 }
 
-                if (IsEnabled(Presets.PLD_AoE_Confiteor) && ActionReady(OriginalHook(Confiteor)) && CurrentMP >= GetResourceCost(OriginalHook(Confiteor))
-                    && (HasEffect(Buffs.ConfiteorReady) || HasEffect(Buffs.Requiescat)
-                    || ((WasLastGCD(Confiteor) || WasLastGCD(BladeOfFaith) || WasLastGCD(BladeOfTruth)) && LevelChecked(BladeOfFaith))))
+                if (IsEnabled(Presets.PLD_AoE_Confiteor) && ActionReady(OriginalHook(Confiteor)) && CurrentMP >= GetResourceCost(OriginalHook(Confiteor)))
                 {
                     return OriginalHook(Confiteor);
                 }

@@ -55,4 +55,19 @@ internal abstract partial class CustomComboFunctions
     {
         return ActionManager.Instance()->GetActionStatus(ActionType.Action, actionID) == 0;
     }
+
+    internal static unsafe float RemainingGCD
+    {
+        get
+        {
+            RecastDetail* recastGCD = ActionManager.Instance()->GetRecastGroupDetail(57);
+
+            if (recastGCD == null)
+            {
+                return 0;
+            }
+
+            return recastGCD->Total - recastGCD->Elapsed;
+        }
+    }
 }

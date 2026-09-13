@@ -98,7 +98,7 @@ internal class RDM
                 && IsEnabled(Presets.RDM_ST_DPS))
             {
                 if (IsEnabled(Presets.RDM_ST_Opener) && !InCombat() && ActionReady(OriginalHook(Verthunder3))
-                    && !HasEffect(Buffs.MagickedSwordPlay) && Gauge.ManaStacks == 0)
+                    && !HasEffect(Buffs.MagickedSwordPlay) && Gauge.ManaStacks == 0 && !Service.Configuration.IgnoreGCDChecks)
                 {
                     return OriginalHook(Verthunder3);
                 }
