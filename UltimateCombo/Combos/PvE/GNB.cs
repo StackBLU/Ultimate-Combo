@@ -106,8 +106,8 @@ internal static class GNB
 
                 if (CanWeave(actionID, ActionWatching.LastGCD) && (ActionWatching.NumberOfGcdsUsed >= 1 || Service.Configuration.IgnoreGCDChecks || LevelIgnoreGCD()))
                 {
-                    if (ActionReady(Continuation)
-                        && (HasEffect(Buffs.ReadyToRip) || HasEffect(Buffs.ReadyToTear) || HasEffect(Buffs.ReadyToGouge) || HasEffect(Buffs.ReadyToBlast)))
+                    if (ActionReady(OriginalHook(Continuation)) && (HasEffect(Buffs.ReadyToRip) || HasEffect(Buffs.ReadyToTear)
+                        || HasEffect(Buffs.ReadyToGouge) || HasEffect(Buffs.ReadyToBlast)))
                     {
                         return OriginalHook(Continuation);
                     }
@@ -185,7 +185,7 @@ internal static class GNB
                     return OriginalHook(GnashingFang);
                 }
 
-                if (IsEnabled(Presets.GNB_ST_Bloodfest) && ActionReady(ReignOfBeasts) && !WasLastGCD(GnashingFang) && !WasLastGCD(SavageClaw)
+                if (IsEnabled(Presets.GNB_ST_Bloodfest) && ActionReady(OriginalHook(ReignOfBeasts)) && !WasLastGCD(GnashingFang) && !WasLastGCD(SavageClaw)
                     && ((HasEffect(Buffs.NoMercy) && HasEffect(Buffs.ReadyToReign))
                     || (HasEffect(Buffs.ReadyToReign) && EffectRemainingTime(Buffs.ReadyToReign) <= 10)
                     || WasLastGCD(ReignOfBeasts) || WasLastGCD(NobleBlood)))
@@ -245,7 +245,7 @@ internal static class GNB
 
                 if (CanWeave(actionID, ActionWatching.LastGCD))
                 {
-                    if (ActionReady(Continuation) && HasEffect(Buffs.ReadyToRaze))
+                    if (ActionReady(OriginalHook(Continuation)) && HasEffect(Buffs.ReadyToRaze))
                     {
                         return OriginalHook(Continuation);
                     }
@@ -322,7 +322,7 @@ internal static class GNB
         {
             if (actionID is BurstStrike && IsEnabled(Presets.GNB_BurstCont))
             {
-                if (ActionReady(Continuation) && HasEffect(Buffs.ReadyToBlast))
+                if (ActionReady(OriginalHook(Continuation)) && HasEffect(Buffs.ReadyToBlast))
                 {
                     return OriginalHook(Continuation);
                 }
@@ -345,7 +345,7 @@ internal static class GNB
         {
             if (actionID is GnashingFang && IsEnabled(Presets.GNB_GnashCont))
             {
-                if (ActionReady(Continuation) && (HasEffect(Buffs.ReadyToRip) || HasEffect(Buffs.ReadyToTear) || HasEffect(Buffs.ReadyToGouge)))
+                if (ActionReady(OriginalHook(Continuation)) && (HasEffect(Buffs.ReadyToRip) || HasEffect(Buffs.ReadyToTear) || HasEffect(Buffs.ReadyToGouge)))
                 {
                     return OriginalHook(Continuation);
                 }
@@ -368,7 +368,7 @@ internal static class GNB
         {
             if (actionID is FatedCircle && IsEnabled(Presets.GNB_FatedCont))
             {
-                if (ActionReady(Continuation) && HasEffect(Buffs.ReadyToRaze))
+                if (ActionReady(OriginalHook(Continuation)) && HasEffect(Buffs.ReadyToRaze))
                 {
                     return OriginalHook(Continuation);
                 }

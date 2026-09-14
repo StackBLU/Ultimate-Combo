@@ -175,7 +175,7 @@ internal class VPR
                     && !Gauge.DreadCombo.HasFlag(DreadCombo.HuntersCoil))
                 {
                     if (IsEnabled(Presets.VPR_ST_Reawaken) && ActionReady(Reawaken) && InActionRange(Reawaken)
-                        && ((TargetWorthDoT() && (GetCooldownRemainingTime(SerpentsIre) > 30 || Gauge.SerpentOffering == 100)) || BossAlmostDead())
+                        && (GetCooldownRemainingTime(SerpentsIre) > 30 || Gauge.SerpentOffering == 100 || BossAlmostDead())
                         && (Gauge.SerpentOffering >= 50 || HasEffect(Buffs.ReadyToReawaken)))
                     {
                         return Reawaken;
@@ -350,12 +350,13 @@ internal class VPR
                     }
                 }
 
-                if (EffectRemainingTime(Buffs.Swiftscaled) > 10 && EffectRemainingTime(Buffs.HuntersInstinct) > 10 && TargetWorthDoT()
-                    && !Gauge.DreadCombo.HasFlag(DreadCombo.PitOfDread) && InActionRange(Reawaken)
-                    && !Gauge.DreadCombo.HasFlag(DreadCombo.SwiftskinsDen) && !Gauge.DreadCombo.HasFlag(DreadCombo.HuntersDen))
+                if (EffectRemainingTime(Buffs.Swiftscaled) > 10 && EffectRemainingTime(Buffs.HuntersInstinct) > 10
+                    && !Gauge.DreadCombo.HasFlag(DreadCombo.PitOfDread)
+                    && !Gauge.DreadCombo.HasFlag(DreadCombo.SwiftskinsDen)
+                    && !Gauge.DreadCombo.HasFlag(DreadCombo.HuntersDen))
                 {
-                    if (IsEnabled(Presets.VPR_AoE_Reawaken) && ActionReady(Reawaken)
-                        && ((TargetWorthDoT() && (GetCooldownRemainingTime(SerpentsIre) > 30 || Gauge.SerpentOffering == 100)) || BossAlmostDead())
+                    if (IsEnabled(Presets.VPR_AoE_Reawaken) && ActionReady(Reawaken) && InActionRange(Reawaken)
+                        && (GetCooldownRemainingTime(SerpentsIre) > 30 || Gauge.SerpentOffering == 100 || BossAlmostDead())
                         && (Gauge.SerpentOffering >= 50 || HasEffect(Buffs.ReadyToReawaken)))
                     {
                         return Reawaken;

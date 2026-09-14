@@ -2416,7 +2416,7 @@ public enum Presets
 
     [ReplaceSkill(BST.SmashAxe, BST.AxebladeBite, BST.Shieldsplitter)]
     [CustomComboInfo("Single Target DPS", "", BST.JobID)]
-    BST_ST_DPS = 62000,
+    BST_DPS = 62000,
 
     #endregion
 

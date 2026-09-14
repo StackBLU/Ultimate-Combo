@@ -1,5 +1,15 @@
+using ECommons.DalamudServices;
+using FFXIVClientStructs.FFXIV.Client.Game;
+using FFXIVClientStructs.FFXIV.Client.Game.UI;
+using Lumina.Excel.Sheets.Experimental;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
 using UltimateCombo.ComboHelper.Functions;
 using UltimateCombo.Core;
+using Buddy = FFXIVClientStructs.FFXIV.Client.Game.UI.Buddy;
+
+#pragma warning disable PendingExcelSchema
 
 namespace UltimateCombo.Combos.General;
 
@@ -7,14 +17,73 @@ internal class BST
 {
     internal const byte JobID = 43;
 
+    internal enum InstinctualAffinity : byte
+    {
+        None = 0,
+        Volant = 1,
+        Rampant = 2,
+        Durant = 3,
+        Eldritch = 4,
+        Sunstrider = 5,
+        Moonstalker = 6,
+        WaveringHeart = 7,
+    }
+
+    internal enum BeastmasterKinType : byte
+    {
+        None = 0,
+        Beastkin = 1,
+        Vilekin = 2,
+        Cloudkin = 3,
+        Seedkin = 4,
+        Wavekin = 5,
+        Scalekin = 6,
+        Soulkin = 7,
+        Ashkin = 8,
+    }
+
+    internal enum TrickAffinity
+    {
+        None,
+        Volant,
+        Rampant,
+        Durant,
+        Eldritch,
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 0x11)]
+    internal struct TmpBSTGauge
+    {
+        [FieldOffset(0x08)] internal byte PlayerTP;
+        [FieldOffset(0x09)] internal byte BeastTP;
+        [FieldOffset(0x0B)] internal byte BattleHorn;
+
+        [FieldOffset(0x0C)] internal InstinctualAffinity AffinityStatus;
+        [FieldOffset(0x0D)] internal InstinctualAffinity ActiveAffinity;
+        [FieldOffset(0x0E)] internal byte Chain;
+        [FieldOffset(0x0F)] internal byte Kinship;
+        [FieldOffset(0x10)] internal byte Instinct;
+
+        internal BeastmasterKinType KinshipKinType => (BeastmasterKinType) (Kinship >> 4);
+
+        internal byte KinshipBattlehorn => (byte) (Kinship & 0x0F);
+
+        internal int PetInstinct => Instinct & 0x3;
+
+        internal int MasterInstinct => (Instinct & 0xC) >> 2;
+    }
+
+    internal static unsafe TmpBSTGauge* GaugePtr => (TmpBSTGauge*) ((nint) JobGaugeManager.StaticAddressPointers.pInstance + 0x08);
+
+    internal static unsafe TmpBSTGauge Gauge => *GaugePtr;
+
     internal const uint
         SmashAxe = 44879,
         AxebladeBite = 44883,
         Shieldsplitter = 44885,
+        Trick = 47093,
 
-        Capture = 44880,
         FirstBattlehorn = 44881,
-        Gauge = 44882,
         AvalancheAxe = 44884,
         BeastMode = 44886,
         MistralAxe = 44887,
@@ -81,16 +150,231 @@ internal class BST
             BLU_WingedReprobation = new("BLU_WingedReprobation");
     }
 
+    internal static class TrickActions
+    {
+        internal const uint
+            Cusith_Rake = 44935,
+            Squirrel_SomersaultSlash = 44937,
+            Lamb_FleeceButt = 44939,
+            Pugil_Screwdriver = 44941,
+            Opoopo_StoneThrow = 44943,
+            Dodo_FowlStench = 44945,
+            Coblyn_BestialThunder = 44947,
+            Diremite_DeadlyThrust = 44949,
+            Megalocrab_DrenchingBlow = 44951,
+            Wespe_SharpSting = 44953,
+            Vulture_WingCutter = 44955,
+            Mandragora_Budbutt = 44957,
+            Geshunpest_DarkThunder = 44959,
+            Puk_Fireball = 44961,
+            Crab_BubbleShower = 44963,
+            Mantis_StandingChine = 44965,
+            Slime_Digest = 44967,
+            Dullahan_IronJustice = 44969,
+            Bat_BloodDrain = 44971,
+            Flyingtrap_SourSough = 44973,
+            Ziz_IceBreath = 44975,
+            Sabotender_NaturalNeedles = 44977,
+            Golem_BoulderClap = 44979,
+            Apkallu_FlyingSardine = 44981,
+            Adamantoise_BestialThunderII = 44983,
+            Buffalo_Heave = 44985,
+            Uragnite_FrostBreath = 44987,
+            Worm_SandBreath = 44989,
+            Spriggan_Romp = 44991,
+            Goobbue_Beatdown = 44993,
+            Gigantoad_BestialBlizzardII = 44995,
+            Colibri_PeckingFlurry = 44997,
+            Coeurl_Blaster = 44999,
+            Raptor_FrostBreath = 45001,
+            Drake_BurningCyclone = 45003,
+            Treant_AcornBomb = 45005,
+            Antling_MandibleBite = 45007,
+            Chimera_theLionsBreath = 45009,
+            Morbol_VineProbe = 45011,
+            Ghost_FellGale = 45013,
+            Salamander_BrackishRain = 45015,
+            Cobra_DrippingFang = 45017,
+            Hydra_MainTrap = 45019,
+            Damselfly_CursedSphere = 45021,
+            Rottinggoobbue_DirtySneeze = 45023,
+            Zu_FlyingFrenzy = 45025,
+            Icegolem_IceGuillotine = 45027,
+            Karlabos_Impale = 45029,
+            Rafflesia_BloodyCaress = 45031,
+            Behemoth_Thunderbolt = 45033;
+    }
+
+    private static readonly List<uint> RampantTricks =
+    [
+        TrickActions.Cusith_Rake,
+        TrickActions.Squirrel_SomersaultSlash,
+        TrickActions.Lamb_FleeceButt,
+        TrickActions.Opoopo_StoneThrow,
+        TrickActions.Diremite_DeadlyThrust,
+        TrickActions.Mandragora_Budbutt,
+        TrickActions.Puk_Fireball,
+        TrickActions.Sabotender_NaturalNeedles,
+        TrickActions.Buffalo_Heave,
+        TrickActions.Spriggan_Romp,
+        TrickActions.Goobbue_Beatdown,
+        TrickActions.Drake_BurningCyclone,
+        TrickActions.Antling_MandibleBite,
+        TrickActions.Chimera_theLionsBreath,
+        TrickActions.Morbol_VineProbe,
+    ];
+
+    private static readonly List<uint> EldritchTricks =
+    [
+        TrickActions.Dodo_FowlStench,
+        TrickActions.Coblyn_BestialThunder,
+        TrickActions.Geshunpest_DarkThunder,
+        TrickActions.Slime_Digest,
+        TrickActions.Golem_BoulderClap,
+        TrickActions.Adamantoise_BestialThunderII,
+        TrickActions.Worm_SandBreath,
+        TrickActions.Gigantoad_BestialBlizzardII,
+        TrickActions.Coeurl_Blaster,
+        TrickActions.Treant_AcornBomb,
+        TrickActions.Rottinggoobbue_DirtySneeze,
+        TrickActions.Rafflesia_BloodyCaress,
+        TrickActions.Behemoth_Thunderbolt,
+    ];
+
+    private static readonly List<uint> DurantTricks =
+    [
+        TrickActions.Pugil_Screwdriver,
+        TrickActions.Megalocrab_DrenchingBlow,
+        TrickActions.Crab_BubbleShower,
+        TrickActions.Mantis_StandingChine,
+        TrickActions.Dullahan_IronJustice,
+        TrickActions.Ziz_IceBreath,
+        TrickActions.Apkallu_FlyingSardine,
+        TrickActions.Uragnite_FrostBreath,
+        TrickActions.Raptor_FrostBreath,
+        TrickActions.Salamander_BrackishRain,
+        TrickActions.Cobra_DrippingFang,
+        TrickActions.Hydra_MainTrap,
+        TrickActions.Icegolem_IceGuillotine,
+        TrickActions.Karlabos_Impale,
+    ];
+
+    private static readonly List<uint> VolantTricks =
+    [
+        TrickActions.Wespe_SharpSting,
+        TrickActions.Vulture_WingCutter,
+        TrickActions.Bat_BloodDrain,
+        TrickActions.Flyingtrap_SourSough,
+        TrickActions.Colibri_PeckingFlurry,
+        TrickActions.Ghost_FellGale,
+        TrickActions.Damselfly_CursedSphere,
+        TrickActions.Zu_FlyingFrenzy,
+    ];
+
+    internal static unsafe Buddy.BuddyMember? CurrentPet =>
+        *UIState.Instance()->Buddy.PetInfo.Pet;
+
+    internal static bool CurrentPetIsBMPet =>
+        CurrentPet?.DataId > 0 &&
+        Svc.Data.GetExcelSheet<XBMPet>().Any(x => x.Pet.RowId == CurrentPet?.DataId);
+
+    internal static Pet? CurrentPetSheet =>
+        CurrentPetIsBMPet
+            ? Svc.Data.GetExcelSheet<Pet>().GetRow(CurrentPet?.DataId ?? 0)
+            : null;
+
+    internal static uint CurrentPetTrickAction =>
+        CurrentPetSheet?.Abilities[0].RowId ?? 0;
+
+    private static bool TrickIsDurant =>
+        DurantTricks.Any(x => x == CurrentPetTrickAction);
+
+    private static bool TrickIsEldritch =>
+        EldritchTricks.Any(x => x == CurrentPetTrickAction);
+
+    private static bool TrickIsVolant =>
+        VolantTricks.Any(x => x == CurrentPetTrickAction);
+
+    private static bool TrickIsRampant =>
+        RampantTricks.Any(x => x == CurrentPetTrickAction);
+
+    internal enum TrickTypes
+    {
+        None,
+        Durant,
+        Eldritch,
+        Volant,
+        Rampant,
+    }
+
+    internal static TrickTypes TrickType =>
+        TrickIsDurant ? TrickTypes.Durant :
+        TrickIsEldritch ? TrickTypes.Eldritch :
+        TrickIsVolant ? TrickTypes.Volant :
+        TrickIsRampant ? TrickTypes.Rampant :
+        TrickTypes.None;
+
     //internal static BSTGauge Gauge => CustomComboFunctions.GetJobGauge<BSTGauge>();
 
-    internal class BST_ST_DPS : CustomComboBase
+    internal class BST_DPS : CustomComboBase
     {
-        protected internal override Presets Preset { get; } = Presets.BST_ST_DPS;
+        protected internal override Presets Preset { get; } = Presets.BST_DPS;
 
         protected override uint Invoke(uint actionID)
         {
-            if ((actionID is SmashAxe or AxebladeBite or Shieldsplitter) && IsEnabled(Presets.BST_ST_DPS))
+            if ((actionID is SmashAxe or AxebladeBite or Shieldsplitter) && IsEnabled(Presets.BST_DPS))
             {
+                /*
+                if (HasEffect(Buffs.Rampant) && Gauge.PlayerTP >= 100)
+                {
+                    return OriginalHook(MistralAxe);
+                }
+
+                if (HasEffect(Buffs.Durant) && Gauge.PlayerTP >= 100)
+                {
+                    return OriginalHook(SpinningAxe);
+                }
+
+                if (HasEffect(Buffs.Eldritch) && Gauge.PlayerTP >= 100)
+                {
+                    return OriginalHook(GaleAxe);
+                }
+
+                if (HasEffect(Buffs.Volant) && Gauge.PlayerTP >= 100)
+                {
+                    return OriginalHook(AvalancheAxe);
+                }
+
+                if (Gauge.MasterInstinct < 3 && Gauge.MasterInstinct >= Gauge.PetInstinct && ((Gauge.PlayerTP >= 100 && Gauge.BeastTP >= 100)
+                    || HasEffect(Buffs.Rampant) || HasEffect(Buffs.Durant) || HasEffect(Buffs.Eldritch) || HasEffect(Buffs.Volant)))
+                {
+                    if (TrickType is TrickTypes.Rampant)
+                    {
+                        return OriginalHook(GaleAxe);
+                    }
+
+                    if (TrickType is TrickTypes.Durant)
+                    {
+                        return OriginalHook(AvalancheAxe);
+                    }
+
+                    if (TrickType is TrickTypes.Eldritch)
+                    {
+                        return OriginalHook(MistralAxe);
+                    }
+
+                    if (TrickType is TrickTypes.Volant)
+                    {
+                        return OriginalHook(SpinningAxe);
+                    }
+                }
+
+                if (Gauge.PetInstinct < 3 && Gauge.PetInstinct >= Gauge.MasterInstinct && ((Gauge.PlayerTP >= 100 && Gauge.BeastTP >= 100)
+                    || HasEffect(Buffs.Rampant) || HasEffect(Buffs.Durant) || HasEffect(Buffs.Eldritch) || HasEffect(Buffs.Volant)))
+                {
+                    return OriginalHook(Trick);
+                }*/
+
                 if (ComboAction is SmashAxe && ActionReady(AxebladeBite))
                 {
                     return AxebladeBite;
@@ -108,3 +392,5 @@ internal class BST
         }
     }
 }
+
+#pragma warning restore PendingExcelSchema
