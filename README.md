@@ -202,7 +202,7 @@
 
 <p align="center">
 	If you experience any bugs or errors, please create an issue on GitHub or join the <a href="https://discord.gg/yPxwkdqhHs">Discord</a>.<br>
-	Use <code>/uc debug</code> to create a diagnostic file to attach to your report.
+	Use <code>/uc debug</code> to create a diagnostic file to attach to your report. 
 </p>
 
 <p align="center">
